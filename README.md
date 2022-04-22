@@ -44,7 +44,7 @@ Implementado com HTML, CSS, Javascript com React no front-end, Node.js para o ba
 para o banco de dados.
 
 ### Diagrama de Navegação
-<img src="https://github.com/pedromonici/Good-Glasses/blob/main/mockups/diagrama_navegacao.jpg" width=600px>
+<img src="https://github.com/pedromonici/Good-Glasses/blob/main/mockups/navegation_diagram.jpeg.jpg" width=600px>
 As imagens do mockup estão na pasta `/mockups`.
 
 ### Funcionalidades
