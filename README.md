@@ -44,7 +44,7 @@ Implementado com HTML, CSS, Javascript com React no front-end, Node.js para o ba
 para o banco de dados.
 
 ### Diagrama de Navegação
-<img src="https://github.com/pedromonici/Good-Glasses/blob/main/mockups/navegation_diagram.jpeg.jpg" width=600px>
+<img src="https://github.com/pedromonici/Good-Glasses/blob/main/mockups/navegation_diagram.jpg" width=600px>
 As imagens do mockup estão na pasta `/mockups`.
 
 ### Funcionalidades
@@ -84,13 +84,19 @@ adicionar ao carrinho.
 - Quantidade disponível para compra
 
 ## Comentários sobre o código
+Existem 3 páginas HTML presentes nesse repositório no diretório `src` e apenas
+1 CSS para todas as páginas.
 
 ## Plano de Teste
 
 ## Resultado dos Testes
 
 ## Building
+Para o Milestone01, é necessário apenas abrir os HTMLs inclusos no diretório
+`src`.
 
 ## Problemas
+Não existem problemas.
 
 ## Comentários
+Não existem comentários.
