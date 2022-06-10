@@ -14,22 +14,23 @@ import Pay from "./Components/pay";
 import Products from "./Components/products";
 import Recomendations from "./Components/recomendations";
 import Cart from "./Components/cart";
+import { useState } from "react";
 
 function App() {
+	const [cartList, setCartList] = useState({});
 	return (
 		<Router>
 			<Header/>
 			<div className="content">
 				<Routes>
-					<Route exact path="/" element={<GlassesList/>}/>
-					<Route path="/oculos/:id" element={<GlassesDescription/>}/>
+					<Route exact path="/" element={<Products/>}/>
+					<Route path="/oculos/:id" element={<GlassesDescription cart={cartList} setCart={setCartList}/>}/>
 					<Route path="/login" element={<Login/>}/>
 					<Route path="/signup" element={<SignUp/>}/>
 					<Route path="/update_info" element={<UpdateInfo/>}/>
 					<Route path="/pay" element={<Pay/>}/>
-					<Route path="/products" element={<Products/>}/>
 					<Route path="/recomendations" element={<Recomendations/>}/>
-					<Route path="/cart" element={<Cart/>}/>
+					<Route path="/cart" element={<Cart cart={cartList} setCart={setCartList}/>}/>
 				</Routes>
 			</div>
 			<Footer/>
