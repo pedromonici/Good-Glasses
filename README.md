@@ -49,7 +49,7 @@ As imagens do mockup estão na pasta `/mockups`.
 
 ### Funcionalidades
 - Criar uma nova conta;
-- Realizar login com email e senha na plataforma;
+- Realizar login com cpf e senha na plataforma;
 - Visualizar as informações da conta de cada cliente, com a opção de alterar cadastro;
 - Visualizar página de administrador, com opção de administrar os produtos e usuários na loja;
 - Acesso a página inicial da loja 
