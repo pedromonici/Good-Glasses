@@ -2,8 +2,6 @@ import "../index.css";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import GlassesImg from "../oculos.jpeg";
 
-
-
 function GlassesDescription(props) {
 	const glassesId = useParams();
 	const navigate = useNavigate();

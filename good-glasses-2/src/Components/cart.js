@@ -69,13 +69,17 @@ function GlassesPreviewList(props) {
 
 function Cart(props) {
 	const cart = sessionStorage.getItem("cart");
-	console.log(cart);
 	return (
 		<div>
 			<h1> Seu carrinho: </h1>
 			<GlassesPreviewList/>
 			<div>{`Valor Total: R$${100}`}</div>
-			<Link to="/pay"> Finalizar Compra </Link>
+			{props.loggedIn.length !== 0 &&
+				<Link to="/pay"> Finalizar Compra </Link>
+			}
+			{props.loggedIn.length === 0 &&
+				<Link to="/login"> Finalizar Compra </Link>
+			}
 		</div>	
 	);
 };

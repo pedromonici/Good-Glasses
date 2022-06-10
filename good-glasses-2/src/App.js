@@ -2,6 +2,8 @@ import {
 	Routes,
 	BrowserRouter as Router,
 	Route,
+	useNavigate,
+	Navigate,
 } from "react-router-dom";
 import Header from "./Components/header.js";
 import GlassesList from "./Components/glasses_list.js";
@@ -15,22 +17,35 @@ import Products from "./Components/products";
 import Recomendations from "./Components/recomendations";
 import Cart from "./Components/cart";
 import { useState } from "react";
+import AdminPage from "./Components/admin_page.js";
+import AddProduct from "./Components/add_product.js";
 
 function App() {
-	const [cartList, setCartList] = useState({});
+	const [loggedIn, setLoggedIn] = useState("");
+
 	return (
 		<Router>
-			<Header/>
+			<Header loggedIn={loggedIn}/>
 			<div className="content">
 				<Routes>
 					<Route exact path="/" element={<Products/>}/>
-					<Route path="/oculos/:id" element={<GlassesDescription cart={cartList} setCart={setCartList}/>}/>
-					<Route path="/login" element={<Login/>}/>
-					<Route path="/signup" element={<SignUp/>}/>
-					<Route path="/update_info" element={<UpdateInfo/>}/>
+					<Route path="/oculos/:id" element={<GlassesDescription/>}/>
+
+					{loggedIn.length === 0 && ( 
+						<>
+							<Route path="/login" element={<Login setLoggedIn={setLoggedIn}/>}/>
+							<Route path="/signup" element={<SignUp/>}/>
+						</>
+					)};
+					{loggedIn.length !== 0 && <Route path="/update_info" element={<UpdateInfo loggedIn={loggedIn}/>}/>}
+
+					<Route path="/admin_page" element={<AdminPage/>}/>
+					<Route path="/update_product/:name" element={<UpdateProduct/>}/>
+					<Route path="/add_product" element={<AddProduct/>}/>
 					<Route path="/pay" element={<Pay/>}/>
 					<Route path="/recomendations" element={<Recomendations/>}/>
-					<Route path="/cart" element={<Cart cart={cartList} setCart={setCartList}/>}/>
+					<Route path="/cart" element={<Cart loggedIn={loggedIn}/>}/>
+					<Route exact path="/*" element={<Navigate to="/"/>}/>
 				</Routes>
 			</div>
 			<Footer/>

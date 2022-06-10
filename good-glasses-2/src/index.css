@@ -356,3 +356,12 @@ input[type="password"].error {
 	width: 40px;
 	height: 40px;
 }
+
+.hidden {
+	display: hidden;
+}
+
+.erro {
+	color: red;
+	font-size: 12px;
+}
