@@ -19,6 +19,7 @@ import Cart from "./Components/cart";
 import { useState } from "react";
 import AdminPage from "./Components/admin_page.js";
 import AddProduct from "./Components/add_product.js";
+import UpdateProduct from "./Components/update_product";
 
 function App() {
 	const [loggedIn, setLoggedIn] = useState("");

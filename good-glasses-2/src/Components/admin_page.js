@@ -10,11 +10,12 @@ function GlassesPreview(props) {
 			<div className="list-item-img-wrapper">
 				<img src={props.img}/>
 			</div>
-			<div className="v-middle">{props.name} </div>
+			<div className="v-middle">{`Nome: ${props.name}`} </div>
 			<div className="v-middle">{`Preço: R$${props.cost}`}</div>
 			<div className="v-middle">{`Descrição: ${props.description}`}</div>
 			<div className="v-middle">{`Quantidade Disponível: ${props.availableQtt}`}</div>
 			<div className="v-middle">{`Quantidade Vendida: ${props.soldQtt}`}</div>
+			<div className="v-middle">{`Categoria: ${props.category}`}</div>
 			<Link to={`/update_product/${props.name}`}> Atualizar </Link>
 			<button className="remove-cart" onClick={(event) => {
 				props.removeGlasses(props.name);
@@ -36,6 +37,7 @@ function GlassesPreviewList(props) {
 			img={glass.img} 
 			key={idx} 
 			availableQtt={glass.availableQtt}
+			category={glass.category}
 			soldQtt={glass.soldQtt}
 			removeGlasses={props.removeGlasses}
 		/>

@@ -13,7 +13,6 @@ function GlassesDescription(props) {
 		const cart = {...JSON.parse(jsonCart)};
 		cart[glassesId.id] = 1;
 		sessionStorage.setItem("cart", JSON.stringify(cart));
-		//props.setCart(cart);
 		navigate("/");
 	};
 

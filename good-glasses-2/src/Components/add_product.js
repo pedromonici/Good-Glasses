@@ -9,6 +9,7 @@ function AddProduct(props) {
 	const [description, setDescription] = useState({status: false, value: "", error: "Campo Obrigatório!"});
 	const [img, setImg] = useState({status: false, value: "", error: "Campo Obrigatório!"});
 	const [availableQtt, setAvailableQtt] = useState({status: false, value: "", error: "Campo Obrigatório!"});
+	const [category, setCategory] = useState({status: false, value: "", error: "Campo Obrigatório!"});
 	const navigate = useNavigate();
 
 	function handleNameChange(event) {
@@ -47,7 +48,13 @@ function AddProduct(props) {
 		}
 		setAvailableQtt({status: true, value: event.target.value, error: ""});
 	};
-
+	function handleCategoryChange(event) {
+		if (event.target.value === "") {
+			setCategory({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			return;
+		}
+		setCategory({status: true, value: event.target.value, error: ""});
+	};
 
 	const registerUser = useCallback(async (event) => {
 		event.preventDefault();
@@ -94,6 +101,17 @@ function AddProduct(props) {
 				<label htmlFor="availableQtt"> Quantidade Disponível: </label>
 				<input id="availableQtt" type="text" value={availableQtt.value} onChange={handleAvailableQttChange}/>
 				<div className={!availableQtt.status ? "erro" : "hidden"}> {availableQtt.error} </div>
+
+				<label htmlFor="category"> Categoria: </label>
+				<input id="category" type="text" value={category.value} onChange={handleCategoryChange} list="categories"/>
+				<datalist id="categories">
+					<option value="redondo"/>
+					<option value="retangular"/>
+					<option value="hexagonal"/>
+					<option value="escuro"/>
+					<option value="lente"/>	 
+				</datalist>
+				<div className={!category.status ? "erro" : "hidden"}> {category.error} </div>
 
 				<input type="submit" value="Adicionar Produto" className="pink-background"/>
 			</form>

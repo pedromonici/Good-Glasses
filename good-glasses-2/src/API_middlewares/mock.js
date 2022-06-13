@@ -73,6 +73,42 @@ class MockAPI {
 		});
 	};
 
+	async getProduct(name) {
+		return new Promise((resolve, reject) => {
+			setTimeout(() => {
+				let products = localStorage.getItem("products");
+				if (typeof products !== "string") {
+					products = "{}";
+				}
+				products = JSON.parse(products);
+				if (name in products) {
+					resolve(products[name]);
+				} else {
+					reject("Produto não encontrado!");
+				}
+			}, 300);
+		});
+	};
+
+	async updateProduct(name, info) {
+		return new Promise((resolve, reject) => {
+			setTimeout(() => {
+				let products = localStorage.getItem("products");
+				if (typeof products !== "string") {
+					products = "{}";
+				}
+				products = JSON.parse(products);
+				if (name in products) {
+					products[name] = {...products[name], ...info};
+					localStorage.setItem("products", JSON.stringify(products));
+					resolve("");
+				} else {
+					reject("Produto não encontrado!");
+				}
+			}, 300);
+		});
+	}
+
 	async getProducts() {
 		return new Promise((resolve, reject) => {
 			setTimeout(() => {
