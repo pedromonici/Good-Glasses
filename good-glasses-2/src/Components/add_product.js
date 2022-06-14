@@ -2,9 +2,11 @@ import "../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import mockAPI from  "../API_middlewares/mock";
 import { useCallback, useState } from "react";
+import TextInput from "./text_input";
 
 function AddProduct(props) {
 	const [name, setName] = useState({status: false, value: "", error: "Campo Obrigatório!"});
+	const [marca, setMarca] = useState({status: false, value: "", error: "Campo Obrigatório!"});
 	const [cost, setCost] = useState({status: false, value: "", error: "Campo Obrigatório!"});
 	const [description, setDescription] = useState({status: false, value: "", error: "Campo Obrigatório!"});
 	const [img, setImg] = useState({status: false, value: "", error: "Campo Obrigatório!"});
@@ -18,6 +20,13 @@ function AddProduct(props) {
 			return;
 		}
 		setName({status: true, value: event.target.value, error: ""});
+	};
+	function handleMarcaChange(event) {
+		if (event.target.value === "") {
+			setMarca({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			return;
+		}
+		setMarca({status: true, value: event.target.value, error: ""});
 	};
 	function handleCostChange(event) {
 		if (event.target.value === "") {
@@ -65,10 +74,12 @@ function AddProduct(props) {
 		try {
 			await mockAPI.addProduct({
 				name: name.value,
-				cost: cost.value,
+				marca: marca.value,
+				price: parseFloat(cost.value),
 				description: description.value,
 				img: img.value,
-				availableQtt: availableQtt.value,
+				availableQtt: parseInt(availableQtt.value),
+				category: category.value,
 				soldQtt: 0
 			});
 			navigate("/admin_page");
@@ -82,36 +93,31 @@ function AddProduct(props) {
 		<div>
 			<h1> Adicionar Produto </h1>
 			<form onSubmit={registerUser}>
-				<label htmlFor="name"> Nome: </label>
-				<input id="name" type="text" value={name.value} onChange={handleNameChange}/>
-				<div className={!name.status ? "erro" : "hidden"}> {name.error} </div>
+				<TextInput id="name" label="Nome" state={name} onChange={handleNameChange}/>
+				<TextInput id="marca" label="Marca" state={marca} onChange={handleMarcaChange}/>
+				<TextInput id="cost" label="Preço" state={cost} onChange={handleCostChange}/>
+				<TextInput id="description" label="Descrição" state={description} onChange={handleDescriptionChange}/>
 
-				<label htmlFor="cost"> Preço: </label>
-				<input id="cost" type="text" value={cost.value} onChange={handleCostChange}/>
-				<div className={!cost.status ? "erro" : "hidden"}> {cost.error} </div>
+				<div>
+					<label htmlFor="img"> Imagem: </label>
+					<input id="img" type="file" onChange={handleImgChange}/>
+					<div className={!img.status ? "erro" : "hidden"}> {img.error} </div>
+				</div>
 
-				<label htmlFor="description"> Descrição: </label>
-				<input id="description" type="text" value={description.value} onChange={handleDescriptionChange}/>
-				<div className={!description.status ? "erro" : "hidden"}> {description.error} </div>
+				<TextInput id="availableQtt" label="Quantidade Disponível" state={availableQtt} onChange={handleAvailableQttChange}/>
 
-				<label htmlFor="img"> Imagem: </label>
-				<input id="img" type="file" onChange={handleImgChange}/>
-				<div className={!img.status ? "erro" : "hidden"}> {img.error} </div>
-
-				<label htmlFor="availableQtt"> Quantidade Disponível: </label>
-				<input id="availableQtt" type="text" value={availableQtt.value} onChange={handleAvailableQttChange}/>
-				<div className={!availableQtt.status ? "erro" : "hidden"}> {availableQtt.error} </div>
-
-				<label htmlFor="category"> Categoria: </label>
-				<input id="category" type="text" value={category.value} onChange={handleCategoryChange} list="categories"/>
-				<datalist id="categories">
-					<option value="redondo"/>
-					<option value="retangular"/>
-					<option value="hexagonal"/>
-					<option value="escuro"/>
-					<option value="lente"/>	 
-				</datalist>
-				<div className={!category.status ? "erro" : "hidden"}> {category.error} </div>
+				<div>
+					<label htmlFor="category"> Categoria: </label>
+					<input id="category" type="text" value={category.value} onChange={handleCategoryChange} list="categories"/>
+					<datalist id="categories">
+						<option value="redondo"/>
+						<option value="retangular"/>
+						<option value="hexagonal"/>
+						<option value="escuro"/>
+						<option value="lente"/>	 
+					</datalist>
+					<div className={!category.status ? "erro" : "hidden"}> {category.error} </div>
+				</div>
 
 				<input type="submit" value="Adicionar Produto" className="pink-background"/>
 			</form>

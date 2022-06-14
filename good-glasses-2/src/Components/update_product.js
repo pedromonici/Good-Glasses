@@ -3,9 +3,12 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
 import mockAPI from "../API_middlewares/mock";
 import Products from "./products";
+import TextInput from "./text_input";
+
 
 function UpdateInfoForm(props) {
 	const [name, setName] = useState("");
+	const [marca, setMarca] = useState({status: false, value: "", error: "Campo Obrigatório!"});
 	const [cost, setCost] = useState({status: false, value: "", error: "Campo Obrigatório!"});
 	const [description, setDescription] = useState({status: false, value: "", error: "Campo Obrigatório!"});
 	const [img, setImg] = useState({status: false, value: "", error: "Campo Obrigatório!"});
@@ -17,9 +20,10 @@ function UpdateInfoForm(props) {
 	useEffect(() => {
 		(async () => {
 			try {
-				const product = await mockAPI.getProduct(params.name);
+				const product = JSON.parse(await mockAPI.getProduct(params.name));
 				setName(product.name);
-				setCost({status: true, value: product.cost, error: ""});
+				setMarca({status: true, value: product.marca, error: ""});
+				setCost({status: true, value: product.price, error: ""});
 				setDescription({status: true, value: product.description, error: ""});
 				setImg({status: true, value: product.img, error: ""});
 				setAvailableQtt({status: true, value: product.availableQtt, error: ""});
@@ -36,6 +40,13 @@ function UpdateInfoForm(props) {
 			return;
 		}
 		setCost({status: true, value: event.target.value, error: ""});
+	};
+	function handleMarcaChange(event) {
+		if (event.target.value === "") {
+			setMarca({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			return;
+		}
+		setMarca({status: true, value: event.target.value, error: ""});
 	};
 	function handleDescriptionChange(event) {
 		if (event.target.value === "") {
@@ -77,10 +88,11 @@ function UpdateInfoForm(props) {
 		try {
 			console.log(img.value);
 			await mockAPI.updateProduct(name, {
-				cost: cost.value,
+				marca: marca.value,
+				price: parseFloat(cost.value),
 				description: description.value,
 				img: img.value,
-				availableQtt: availableQtt.value,
+				availableQtt: parseInt(availableQtt.value),
 				category: category.value,
 			});
 			navigate("/admin_page");
@@ -94,34 +106,31 @@ function UpdateInfoForm(props) {
 		<div>
 			<h1> Atualizar Produto </h1>
 			<form onSubmit={registerUser}>
-				<div> Nome: {name}</div>
+				<div> <h4> Nome do produto: {name} </h4> </div>
+				<TextInput id="marca" label="Marca" state={marca} onChange={handleMarcaChange}/>
+				<TextInput id="cost" label="Preço" state={cost} onChange={handleCostChange}/>
+				<TextInput id="description" label="Descrição" state={description} onChange={handleDescriptionChange}/>
+				
+				<div className="margin-v-25">
+					<label htmlFor="img"> Imagem: </label>
+					<input id="img" type="file" onChange={handleImgChange}/>
+					<div className={!img.status ? "erro" : "hidden"}> {img.error} </div>
+				</div>
 
-				<label htmlFor="cost"> Preço: </label>
-				<input id="cost" type="text" value={cost.value} onChange={handleCostChange}/>
-				<div className={!cost.status ? "erro" : "hidden"}> {cost.error} </div>
+				<TextInput id="availableQtt" label="Quantidade Disponível" state={availableQtt} onChange={handleAvailableQttChange}/>
 
-				<label htmlFor="description"> Descrição: </label>
-				<input id="description" type="text" value={description.value} onChange={handleDescriptionChange}/>
-				<div className={!description.status ? "erro" : "hidden"}> {description.error} </div>
-
-				<label htmlFor="img"> Imagem: </label>
-				<input id="img" type="file" onChange={handleImgChange}/>
-				<div className={!img.status ? "erro" : "hidden"}> {img.error} </div>
-
-				<label htmlFor="availableQtt"> Quantidade Disponível: </label>
-				<input id="availableQtt" type="text" value={availableQtt.value} onChange={handleAvailableQttChange}/>
-				<div className={!availableQtt.status ? "erro" : "hidden"}> {availableQtt.error} </div>
-
-				<label htmlFor="category"> Categoria: </label>
-				<input id="category" type="text" value={category.value} onChange={handleCategoryChange} list="categories"/>
-				<datalist id="categories">
-					<option value="redondo"/>
-					<option value="retangular"/>
-					<option value="hexagonal"/>
-					<option value="escuro"/>
-					<option value="lente"/>	 
-				</datalist>
-				<div className={!category.status ? "erro" : "hidden"}> {category.error} </div>
+				<div className="margin-v-25">
+					<label htmlFor="category"> Categoria: </label>
+					<input id="category" type="text" value={category.value} onChange={handleCategoryChange} list="categories"/>
+					<datalist id="categories">
+						<option value="redondo"/>
+						<option value="retangular"/>
+						<option value="hexagonal"/>
+						<option value="escuro"/>
+						<option value="lente"/>	 
+					</datalist>
+					<div className={!category.status ? "erro" : "hidden"}> {category.error} </div>
+				</div>
 
 				<input type="submit" value="Atualizar Produto" className="pink-background"/>
 			</form>

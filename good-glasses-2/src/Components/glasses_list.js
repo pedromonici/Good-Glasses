@@ -1,17 +1,19 @@
 import "../index.css";
 import { Link } from "react-router-dom";
 import GlassesImg from "../oculos.jpeg";
+import { useEffect, useState } from "react";
+import mockAPI from "../API_middlewares/mock";
 
 function Glasses(props) {
 	return (
 		<div>
-			<Link className="grid-item block-link light-gray-background" to={`/oculos/${props.id}`}>
+			<Link className="grid-item block-link light-gray-background" to={`/oculos/${props.name}`}>
 				<div className="margin-v-25">
-					{`${props.name} ${props.id}`}<br />
+					{`${props.name}`}<br />
 					<div className="grid-item-img-wrapper">
 						<img src={props.img}/>
 					</div>
-					<br/>{`Preço: R$${props.cost}`}
+					<br/>{`Preço: R$${props.price}`}
 				</div>
 			</Link>
 		</div>
@@ -19,8 +21,22 @@ function Glasses(props) {
 }
 
 function GlassesList(props) {
-	const items = Array.from({length: 12}, (_, i) => i).map((elem) => {
-		return <Glasses name={"Algum óculos"} cost={"300.00"} img={GlassesImg} key={elem} id={elem}/>
+	const [glassesList, setGlassesList] = useState([]);
+
+	useEffect(() => {
+		console.log("Trygering reload.");
+		(async () => {
+			try {
+				const glasses = await mockAPI.getProducts(props.category);
+				setGlassesList(JSON.parse(glasses));
+			} catch(exception) {
+				alert("Erro ao selecionar produtos!");
+			}
+		})(); 
+	}, [props.category]);
+
+	const items = Object.values(glassesList).map((elem) => {
+		return <Glasses name={elem.name} price={elem.price} img={elem.img} key={elem.name} id={elem.name}/>
 	});
 	return (
 		<div className="grid">

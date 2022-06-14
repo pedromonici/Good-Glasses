@@ -2,6 +2,7 @@ import "../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import mockAPI from  "../API_middlewares/mock";
 import { useCallback, useState } from "react";
+import TextInput from "./text_input";
 
 function SignUp(props) {
 	const [name, setName] = useState({status: false, value: "", error: "Campo Obrigatório!"});
@@ -127,34 +128,13 @@ function SignUp(props) {
 		<div>
 			<h1> Criação de Conta </h1>
 			<form onSubmit={registerUser}>
-				<label htmlFor="nome"> Nome: </label>
-				<input id="nome" type="text" value={name.value} onChange={handleNameChange}/>
-				<div className={!name.status ? "erro" : "hidden"}> {name.error} </div>
-
-				<label htmlFor="email"> Email: </label>
-				<input id="email" type="email" value={email.value} onChange={handleEmailChange}/>
-				<div className={!email.status ? "erro" : "hidden"}> {email.error} </div>
-
-				<label htmlFor="emailConfirmation"> Confirmar Email: </label>
-				<input id="emailConfirmation" type="email" value={emailConfirmation.value} onChange={handleEmailConfirmationChange}/>
-				<div className={!emailConfirmation.status ? "erro" : "hidden"}> {emailConfirmation.error} </div>
-
-				<label htmlFor="senha"> Senha: </label>
-				<input id="senha" type="password" value={password.value} onChange={handlePasswordChange}/>
-				<div className={!password.status ? "erro" : "hidden"}> {password.error} </div>
-
-				<label htmlFor="senhaConfirmation"> Confirmar Senha: </label>
-				<input id="senhaConfirmation" type="password" value={passwordConfirmation.value} onChange={handlePasswordConfirmationChange}/>
-				<div className={!passwordConfirmation.status ? "erro" : "hidden"}> {passwordConfirmation.error} </div>
-
-				<label htmlFor="CPF"> CPF: </label>
-				<input id="cpf" type="text" value={cpf.value} onChange={handleCPFChange}/>
-				<div className={!cpf.status ? "erro" : "hidden"}> {cpf.error} </div>
-
-				<label htmlFor="telefone"> Telefone: </label>
-				<input id="telefone" type="tel" value={telefone.value} onChange={handleTelefoneChange}/>
-				<div className={!telefone.status ? "erro" : "hidden"}> {telefone.error} </div>
-
+				<TextInput id="name" label="Nome" state={name} onChange={handleNameChange}/>
+				<TextInput id="email" label="Email" state={email} onChange={handleEmailChange}/>
+				<TextInput id="emailConfirmation" label="Confirmação de email" state={emailConfirmation} onChange={handleEmailConfirmationChange}/>
+				<TextInput id="password" label="Password" state={password} onChange={handlePasswordChange}/>
+				<TextInput id="passwordConfirmation" label="Confirmação de senha" state={passwordConfirmation} onChange={handlePasswordConfirmationChange}/>
+				<TextInput id="cpf" label="CPF" state={cpf} onChange={handleCPFChange}/>
+				<TextInput id="telefone" label="Telefone" state={telefone} onChange={handleTelefoneChange}/>
 				<input type="submit" value="Criar Conta" className="pink-background"/>
 			</form>
 		</div>

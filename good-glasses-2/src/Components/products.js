@@ -30,7 +30,7 @@ function Products(props) {
 					<Link to="./?categoria=lente" className={`category-link black-text ${category === "lente" ? "category-bold" : ""}`}> Lentes de Contato </Link>
 				</div>
 			</div>
-			<GlassesList/>
+			<GlassesList category={category}/>
 		</div>
 	);
 };

@@ -1,27 +1,49 @@
 import "../index.css";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import GlassesImg from "../oculos.jpeg";
 import { useCallback, useEffect, useState } from "react";
 import mockAPI from "../API_middlewares/mock";
+import EditableList from "./editable_list";
+import { Icon } from '@iconify/react';
+
+const UpdateCanButton = ({callback}) => {
+    const [color, setColor] = useState("#344648");
+    return (
+        <div className="thrash-can" onClick={callback}>
+            <button onMouseEnter={() => setColor("#209944")} onMouseLeave={() => setColor("#344648")}>
+                <Icon icon="clarity:note-edit-line" color={color} width="40" height="40"/>
+            </button>
+        </div> 
+    )
+}
 
 function GlassesPreview(props) {
+	console.log(props);
 	return (
-		<div className="flex-box flex-box-wrap">
-			<div className="list-item-img-wrapper">
+		<div className="horizontal-glasses-preview">
+			<div className="preview-img-wrapper">
 				<img src={props.img}/>
 			</div>
-			<div className="v-middle">{`Nome: ${props.name}`} </div>
-			<div className="v-middle">{`Preço: R$${props.cost}`}</div>
-			<div className="v-middle">{`Descrição: ${props.description}`}</div>
-			<div className="v-middle">{`Quantidade Disponível: ${props.availableQtt}`}</div>
-			<div className="v-middle">{`Quantidade Vendida: ${props.soldQtt}`}</div>
-			<div className="v-middle">{`Categoria: ${props.category}`}</div>
-			<Link to={`/update_product/${props.name}`}> Atualizar </Link>
-			<button className="remove-cart" onClick={(event) => {
-				props.removeGlasses(props.name);
-			}}> X </button>
+			<div >
+				<div className="v-middle">{`Nome: ${props.name}`} </div>
+				<div className="v-middle">{`Preço: R$${props.price}`}</div>
+				<div className="v-middle">{`Disponíveis: ${props.availableQtt}`}</div>
+				<div className="v-middle">{`Vendidos: ${props.soldQtt}`}</div>
+			</div>
 		</div>
 	);
+}
+
+function GlassesEntry(glassesPreviewProps) {
+	const navigate = useNavigate();
+	return (
+		<div className="glasses-entry">
+			<GlassesPreview {...glassesPreviewProps}/>
+			<div className="glasses-entry-qtt">
+				<UpdateCanButton callback={() => navigate(`/update_product/${glassesPreviewProps.name}`)}/>
+			</div>
+		</div>
+	)
 }
 
 function GlassesPreviewList(props) {
@@ -32,7 +54,8 @@ function GlassesPreviewList(props) {
 	const items = list.map((glass, idx) => {
 		return <GlassesPreview 
 			name={glass.name} 
-			cost={glass.cost}
+			marca={glass.marca}
+			cost={glass.price}
 			description={glass.description}
 			img={glass.img} 
 			key={idx} 
@@ -67,7 +90,7 @@ function AdminPage(props) {
 		}
 	}, [products, loaded]);
 
-	const removeGlasses = useCallback(async (name) => {
+	const removeCallback = async (name) => {
 		console.log(name);
 		try {
 			await mockAPI.removeProduct(name);
@@ -76,14 +99,19 @@ function AdminPage(props) {
 			alert("Falha ao remover produto!");
 			console.log(exception);
 		}
-	});
+	};
+
+	const navigate = useNavigate();
 
 	return (
-		<div>
-			<h1> Produtos Disponíveis: </h1>
-			<GlassesPreviewList products={products} removeGlasses={removeGlasses}/>
-			<Link to="/add_product"> Adicionar Produto </Link>
-		</div>	
+		<>
+			<div>
+				<h1> Produtos Cadastrados: </h1>
+				<hr/>
+				<EditableList itemsProps={products} ItemsComponent={GlassesEntry} removeCallback={removeCallback}/>
+			</div>
+			<button className="pink-background" onClick={() => navigate("/add_product")}> Adicionar produto </button>
+		</>
 	);
 };
 

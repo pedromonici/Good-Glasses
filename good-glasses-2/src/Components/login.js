@@ -56,14 +56,8 @@ function Login(props) {
 			Login
 			</h1>
 			<form onSubmit={authUser}>
-				<label htmlFor="CPF"> CPF: </label>
-				<input id="cpf" type="text" value={cpf.value} onChange={handleCPFChange}/>
-				<div className={!cpf.status ? "erro" : "hidden"}> {cpf.error} </div>
-
-				<label htmlFor="senha"> Senha: </label>
-				<input id="senha" type="password" value={password.value} onChange={handlePasswordChange}/>
-				<div className={!password.status ? "erro" : "hidden"}> {password.error} </div>
-
+				<TextInput id="cpf" label="CPF" state={cpf} onChange={handleCPFChange}/>
+				<TextInput id="senha" label="Senha" state={password} onChange={handlePasswordChange}/>
 				<input type="submit" value="Entrar" className="pink-background"/>
 			</form>
 			<div>
@@ -72,5 +66,15 @@ function Login(props) {
 		</div>
 	);
 };
+
+const TextInput = ({id, label, state, onChange}) => {
+	return (
+		<div className="margin-v-25">
+			<label htmlFor={id}> {`${label}:`} </label>
+			<input id={id} type="text" value={state.value} onChange={onChange}/>
+			<div className={!state.status ? "erro" : "hidden"}> {state.error} </div>
+		</div>
+	)
+}
 
 export default Login;
