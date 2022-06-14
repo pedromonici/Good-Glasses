@@ -1,102 +1,70 @@
-# Good-Glasses
-Final assignment for web development class
+# Getting Started with Create React App
 
-## Requisitos
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### Tipos de Conta
-O sistema deve ter 2 tipos de usuários: Clientes e Administradores.
-- Administradores são responsáveis por registrar/gerenciar outros administradores,
-clientes e produtos fornecidos. O aplicativo já possui uma conta `admin`
-com senha `admin`.
-- Clientes são usuários que acessam o sistema para comprar produtos
+## Available Scripts
 
-### Registros
-O registro do Administrador contém nome, CPF, endereço, telefone e email.
+In the project directory, you can run:
 
-O registro do Cliente contém nome, CPF, endereço, telefone e email.
+### `npm start`
 
-O registo dos produtos contém nome, ID, foto, descrição, preço, quantidade(em estoque)
-e quantidade vendida.
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-### O que é possível fazer?
-- Venda de produtos: Os produtos selecionados, são incluídos em um carrinho e sua quantidade é
-escolhida. Os produtos são comprados usando um número de cartão de crédito (qualquer número é
-aceito pelo sistema). A quantidade de produto vendida é subtraída da quantidade em estoque e 
-adicionada à quantidade vendida. Os carrinhos somente são esvaziados qundo o pagamento é efetuado
-ou quando os clientes removem manualmente todos os produtos.
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-- Gerenciamento de produto: Os administradores podem [criar/atualizar/ler/excluir] (CRUD) novos
-produtos. Por exemplo, eles podem alterar a quantidade em estoque.
+### `npm test`
 
-- Funcionalidade extra: Um cliente deve ser capaz de visualizar uma página com as informações de cada
-produto cadastrado no sistema. Além disso, cada cliente pode realizar um questionário sobre o formato
-de seu rosto, para decidir qual o melhor tipo de óculos para determinado cliente.
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### Acessibilidade
-- O sistema deve prover uma boa acessibilidade e boa usabilidade.
-- O sitema deve ser responsivo.
+### `npm run build`
 
-## Decrição do Projeto
-Good Glasses (GG) é uma ótica responsável por vender os mais variados tipos de óculos e lentes
-destinados ao público geral.
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-Implementado com HTML, CSS, Javascript com React no front-end, Node.js para o back-end e MongoDB
-para o banco de dados.
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-### Diagrama de Navegação
-<img src="https://github.com/pedromonici/Good-Glasses/blob/main/mockups/navegation_diagram.jpg" width=600px>
-As imagens do mockup estão na pasta `/mockups`.
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### Funcionalidades
-- Criar uma nova conta;
-- Realizar login com email e senha na plataforma;
-- Visualizar as informações da conta de cada cliente, com a opção de alterar cadastro;
-- Visualizar página de administrador, com opção de administrar os produtos e usuários na loja;
-- Acesso a página inicial da loja 
-- Acesso da página de compra de produtos, onde todos os produtos são listados.
-- Acesso ao carrinho de compras, com opção de excluir ou alterar a quantidadade de um item, conferir
-o preço total e o preço de cada produto, além de finalizar a compra.
-- Visualização de um determinado produto, mostrando seu nome, foto, preço, descrição e botão para
-adicionar ao carrinho.
-- Opção de inserir informações de cartão de crédito quando se finaliza a compra no carrinho
-- Um questionário para saber qual o melhor tipo de óculos para o tipo de rosto do cliente
+### `npm run eject`
 
-### Servidor
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-#### Contas:
-- ID (identificador do usuário, valor único)
-- Nome
-- Email
-- Senha
-- Admin (0 ou 1)
-- CPF
-- Endereço
-- Número de Telefone
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-#### Produtos:
-- ID (identificador de cada produto, valor único)
-- Título
-- Categoria (utilizada para o questionário)
-- Preço
-- Descrição
-- Imagem
-- Quantidade vendida
-- Quantidade disponível para compra
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-## Comentários sobre o código
-Existem 3 páginas HTML presentes nesse repositório no diretório `src` e apenas
-1 CSS para todas as páginas.
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Plano de Teste
+## Learn More
 
-## Resultado dos Testes
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-## Building
-Para o Milestone01, é necessário apenas abrir os HTMLs inclusos no diretório
-`src`.
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-## Problemas
-Não existem problemas.
+### Code Splitting
 
-## Comentários
-Não existem comentários.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
