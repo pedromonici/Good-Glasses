@@ -9,16 +9,15 @@ import { Icon } from '@iconify/react';
 const UpdateCanButton = ({callback}) => {
     const [color, setColor] = useState("#344648");
     return (
-        <div className="thrash-can" onClick={callback}>
-            <button onMouseEnter={() => setColor("#209944")} onMouseLeave={() => setColor("#344648")}>
+        <div className="icon" onClick={callback}>
+            <div onMouseEnter={() => setColor("#209944")} onMouseLeave={() => setColor("#344648")}>
                 <Icon icon="clarity:note-edit-line" color={color} width="40" height="40"/>
-            </button>
+            </div>
         </div> 
     )
 }
 
 function GlassesPreview(props) {
-	console.log(props);
 	return (
 		<div className="horizontal-glasses-preview">
 			<div className="preview-img-wrapper">
@@ -91,13 +90,11 @@ function AdminPage(props) {
 	}, [products, loaded]);
 
 	const removeCallback = async (name) => {
-		console.log(name);
 		try {
 			await mockAPI.removeProduct(name);
 			setLoaded(false);
 		} catch(exception) {
 			alert("Falha ao remover produto!");
-			console.log(exception);
 		}
 	};
 
@@ -110,7 +107,12 @@ function AdminPage(props) {
 				<hr/>
 				<EditableList itemsProps={products} ItemsComponent={GlassesEntry} removeCallback={removeCallback}/>
 			</div>
-			<button className="pink-background" onClick={() => navigate("/add_product")}> Adicionar produto </button>
+			<button className="button" onClick={() => navigate("/add_product")}> Adicionar produto </button>
+			<div>
+				<h1> Usuários Cadastrados: </h1>
+				<hr/>
+				<EditableList itemsProps={products} ItemsComponent={GlassesEntry} removeCallback={removeCallback}/>
+			</div>
 		</>
 	);
 };

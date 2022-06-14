@@ -30,33 +30,98 @@ body {
 	flex-direction: column;
 }
 
-.header {
+
+header {
+	background-color: #ffffff;
+	display: block;
+	position: fixed;
+	z-index: 1;
+	box-shadow: 10px 0px 5px 3px #ccc;
 	margin: 0 auto;
 	max-width: 100%;
-	height: 100%;
+	height: 80px;
 	width: 100%;
 }
 
-.navigation-link {
-	font-size:30px;
-	margin: 5px 5px;
+.header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	height: 30px;
+	width: calc(100% - 200px);
+	margin: 25px 100px;
+}
+
+.navigation-menu {
+	width: 120px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+@media only screen and (max-width: 1000px) {
+	.header {
+		width: calc(100% - 40px);
+		margin: 25px 20px;
+	}
+	
+	.navigation-menu {
+		width: 120px;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Niconne&display=swap');
+.logo {
+	font-family: 'Niconne', cursive;
+	font-size: 1.0em;
+	color: #DB715A;
+	margin: 0 0;
+	cursor: pointer;
+}
+.logo h1 {
+	margin: 0 0;
+}
+
+.icon {
+	display: flex;
+	justify-content: space-around;
+	flex-direction: column;
+	height: 100%;
+	cursor: pointer;
+}
+
+.nav-button {
+	font-size: 18px;
+	background-color: #ffffff;
+	color: #3f30ca;
+	padding: 1px 10px;
+	font-weight: bold;
+	border: 2pt solid #3f30ca;
+	border-radius: 10%;
 	text-align: center;
 	text-decoration: none;
+	cursor: pointer;
 }
+
+.nav-button:hover {
+	color: #94A7AE;
+	border: 2pt solid #94A7AE;
+	transition: filter 0.6s;
+}
+
 
 .navigation-link:hover {
 	filter: brightness(0.6);
 	transition: filter 0.6s;
 }
 
-header {
-	display: block;
-	position: fixed;
-	z-index: 1;
-	margin: 0 auto;
-	max-width: 100%;
-	height: 100px;
-	width: 100%;
+
+.navigation-link:hover {
+	filter: brightness(0.6);
+	transition: filter 0.6s;
 }
 
 .vertical-flex {
@@ -84,17 +149,12 @@ footer {
 	height: 150px;
 }
 
-.logo {
+/* .logo {
 	margin: 10px 50px;
 	text-align: center;
 	font-size: 30px;
-}
+} */
 
-.navigation-menu {
-	width: 600px;
-	margin-right: 50px;
-	margin-top:30px;
-}
 
 .second-navigation-bar {
 	height: 50px;
@@ -231,7 +291,7 @@ footer {
 }
 
 .button,
-button,
+/*button,*/
 input[type="submit"] {
   margin: 10px 0;
   padding: 15px 20px;
@@ -243,10 +303,11 @@ input[type="submit"] {
   text-transform: uppercase;
   transition: filter 0.6s;
   text-decoration: none;
+  background-color: #DB715A;
 }
 
 .button:hover,
-button:hover,
+/* button:hover, */
 input[type="submit"]:hover {
   filter: brightness(0.8);
   transition: filter 0.6s;
@@ -407,7 +468,6 @@ input[type="password"].error {
 	flex-direction: row;
 	justify-content: space-between;
 	width: 100%;
-	margin-left: 20px;
 }
 
 .glasses-entry {
@@ -416,7 +476,6 @@ input[type="password"].error {
 	flex-direction: row;
 	justify-content: space-between;
 	width: 100%;
-	margin-left: 10px;
 }
 
 .cart-entry-qtt{
@@ -457,13 +516,15 @@ input[type="password"].error {
 }
 
 .editable-list-item {
-	width: 100%;
-	margin: 10px auto;
+	width: calc(100% - 20px);
+	margin: 10px 10px;
 	display: flex;
 	justify-content: space-around;
 	flex-direction: row;
 	box-shadow: 10px 10px 5px -5px #ccc;
 }
+
+
 
 .thrash-can {
 	display: flex;

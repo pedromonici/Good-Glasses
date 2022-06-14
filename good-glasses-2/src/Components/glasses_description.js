@@ -53,7 +53,7 @@ function GlassesDescription(props) {
 				<h2>{`Vendidos:   ${glassesInfo.soldQtt}`}</h2>
 				<h2>{`Em estoque: ${glassesInfo.availableQtt}`}</h2>
 				<h1>{`Preço: R$${glassesInfo.price}.00`}</h1>
-				<button className="pink-background" onClick={addToCart}> Adicionar ao carrinho </button>
+				<button className="button" onClick={addToCart}> Adicionar ao carrinho </button>
 		  	</div>
 		</div>
 	);

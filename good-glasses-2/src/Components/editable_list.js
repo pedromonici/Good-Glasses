@@ -5,13 +5,13 @@ import "../index.css";
 const ThrashCanButton = ({removeCallback}) => {
     const [color, setColor] = useState("#344648");
     return (
-        <div className="thrash-can" onClick={removeCallback}>
-            <button onMouseEnter={() => setColor("#C34F5A")} onMouseLeave={() => setColor("#344648")}>
+        <div className="icon" onClick={removeCallback}>
+            <div onMouseEnter={() => setColor("#C34F5A")} onMouseLeave={() => setColor("#344648")}>
                 <Icon icon="ri:delete-bin-5-line" color={color} width="40" height="40"/>
-            </button>
+            </div>
         </div> 
     )
-}
+};
 
 const EditableList = ({
     itemsProps,

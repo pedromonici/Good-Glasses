@@ -116,18 +116,14 @@ class MockAPI {
 				if (typeof products !== "string") {
 					products = "{}";
 				}
-				products = JSON.parse(products);
-				console.log('Category filtere: ', categoryFilter);
-				console.log('Before filter:', products);				
+				products = JSON.parse(products);				
 				if (categoryFilter) {
-					console.log("Entrou nesse merda aqui FDP. Deixa de ser burro. Tem que nascer denovo.")
 					for (let key of Object.keys(products)) {
 						if (products[key].category !== categoryFilter) {
 							delete products[key];
 						}
 					}
 				}
-				console.log(products);
 				resolve(JSON.stringify(products));
 			}, 300);
 		});
@@ -179,10 +175,7 @@ class MockAPI {
 					products = "{}";
 				}
 				products = JSON.parse(products);
-				console.log(products);
 				for (let item of Object.values(cart)) {
-					console.log(item.glassesPreviewProps.name);
-					console.log(item, products[item.glassesPreviewProps.name]);
 					if (item.qtt > products[item.glassesPreviewProps.name].availableQtt) {
 						reject(`Quantidade solicitada para o item ${item.glassesPreviewProps.name} é maior do que a disponível`);
 					} else {

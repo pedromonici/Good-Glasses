@@ -58,10 +58,10 @@ function Cart(props) {
 					</h3>
 				</div>
 				{props.loggedIn.length !== 0 &&
-					<button className="pink-background" onClick={() => {navigate("/pay")}}> Finalizar Compra </button>
+					<button className="button" onClick={() => {navigate("/pay")}}> Finalizar Compra </button>
 				}
 				{props.loggedIn.length === 0 &&
-					<button className="pink-background" onClick={() => {navigate("/login")}}> Finalizar Compra </button>
+					<button className="button" onClick={() => {navigate("/login")}}> Finalizar Compra </button>
 				}
 			</div>
 		</>

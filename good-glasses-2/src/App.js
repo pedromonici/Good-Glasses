@@ -15,6 +15,7 @@ import UpdateInfo from "./Components/update_info";
 import Pay from "./Components/pay";
 import Products from "./Components/products";
 import Recomendations from "./Components/recomendations";
+import Home from "./Components/home.js";
 import Cart from "./Components/cart";
 import { useState } from "react";
 import AdminPage from "./Components/admin_page.js";
@@ -23,33 +24,37 @@ import UpdateProduct from "./Components/update_product";
 
 function App() {
 	const [loggedIn, setLoggedIn] = useState("");
+	const [isAdmin, setIsAdmin] = useState(false);
 
 	return (
 		<Router>
-			<Header loggedIn={loggedIn}/>
+			<Header loggedIn={loggedIn} isAdmin={isAdmin}/>
 			<div className="content">
 				<Routes>
-					<Route exact path="/" element={<Products/>}/>
+					<Route exact path="/" element={<Home/>}/>
 					<Route path="/oculos/:id" element={<GlassesDescription/>}/>
 
 					{loggedIn.length === 0 && ( 
 						<>
-							<Route path="/login" element={<Login setLoggedIn={setLoggedIn}/>}/>
+							<Route path="/login" element={<Login setLoggedIn={setLoggedIn} setIsAdmin={setIsAdmin}/>}/>
 							<Route path="/signup" element={<SignUp/>}/>
 						</>
 					)};
-					{loggedIn.length !== 0 && <Route path="/update_info" element={<UpdateInfo loggedIn={loggedIn}/>}/>}
-
-					<Route path="/admin_page" element={<AdminPage/>}/>
-					<Route path="/update_product/:name" element={<UpdateProduct/>}/>
-					<Route path="/add_product" element={<AddProduct/>}/>
+					{loggedIn.length !== 0 && !isAdmin &&
+					 <Route path="/update_info" element={<UpdateInfo loggedIn={loggedIn}/>}/>}
+					{loggedIn.length !== 0 && isAdmin &&
+					 <>
+						<Route path="/admin_page" element={<AdminPage/>}/>
+						<Route path="/update_product/:name" element={<UpdateProduct/>}/>
+						<Route path="/add_product" element={<AddProduct/>}/>
+					 </>
+					}
 					<Route path="/pay" element={<Pay/>}/>
 					<Route path="/recomendations" element={<Recomendations/>}/>
 					<Route path="/cart" element={<Cart loggedIn={loggedIn}/>}/>
 					<Route exact path="/*" element={<Navigate to="/"/>}/>
 				</Routes>
 			</div>
-			<Footer/>
 		</Router>
 	);
 }

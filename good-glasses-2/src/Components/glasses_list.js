@@ -24,7 +24,6 @@ function GlassesList(props) {
 	const [glassesList, setGlassesList] = useState([]);
 
 	useEffect(() => {
-		console.log("Trygering reload.");
 		(async () => {
 			try {
 				const glasses = await mockAPI.getProducts(props.category);
