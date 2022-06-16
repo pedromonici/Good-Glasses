@@ -2,6 +2,7 @@ import "../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useCallback, useState } from "react";
 import mockAPI from  "../API_middlewares/mock";
+import {TextInput, PassInput} from "./text_input";
 
 function Login(props) {
 	const [cpf, setCPF] = useState({status: false, value: "", error: "Campo Obrigatório!"});
@@ -63,8 +64,8 @@ function Login(props) {
 			Login
 			</h1>
 			<form onSubmit={authUser}>
-				<TextInput id="cpf" label="CPF" state={cpf} onChange={handleCPFChange}/>
-				<TextInput id="senha" label="Senha" state={password} onChange={handlePasswordChange}/>
+				<TextInput id="cpf" label="CPF" state={cpf} onChange={handleCPFChange} isPass={false}/>
+				<PassInput id="senha" label="Senha" state={password} onChange={handlePasswordChange} isPass={true}/>
 				<input type="submit" value="Entrar" className="pink-background"/>
 			</form>
 			<div>
@@ -73,15 +74,5 @@ function Login(props) {
 		</div>
 	);
 };
-
-const TextInput = ({id, label, state, onChange}) => {
-	return (
-		<div className="margin-v-25">
-			<label htmlFor={id}> {`${label}:`} </label>
-			<input id={id} type="text" value={state.value} onChange={onChange}/>
-			<div className={!state.status ? "erro" : "hidden"}> {state.error} </div>
-		</div>
-	)
-}
 
 export default Login;

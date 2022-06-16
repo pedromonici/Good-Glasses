@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
 import mockAPI from "../API_middlewares/mock";
 import Products from "./products";
-import TextInput from "./text_input";
+import { TextInput } from "./text_input";
 
 
 function UpdateInfoForm(props) {
@@ -34,9 +34,27 @@ function UpdateInfoForm(props) {
 		})();
 	}, []);
 
+	function validCost(price) {
+		var re = /^[0-9]*$/;
+		return re.test(price);
+	}
+	function validQtt(qtt) {
+		var re = /^[0-9]*$/;
+		return re.test(qtt);
+	}
+	function validCategory(category) {
+		return category === "redondo" || category === "retangular" ||
+		    category === "hexagonal" || category === "escuro" ||
+			category === "lente";
+	}
+
 	function handleCostChange(event) {
 		if (event.target.value === "") {
 			setCost({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			return;
+		}
+		if (!validCost(event.target.value)) {
+			setCost({status: false, value: event.target.value, error: "Campo inválido"});
 			return;
 		}
 		setCost({status: true, value: event.target.value, error: ""});
@@ -68,11 +86,19 @@ function UpdateInfoForm(props) {
 			setAvailableQtt({status: false, value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
+		if (!validQtt(event.target.value)) {
+			setAvailableQtt({status: false, value: event.target.value, error: "Campo Inválido!"});
+			return;
+		}
 		setAvailableQtt({status: true, value: event.target.value, error: ""});
 	};
 	function handleCategoryChange(event) {
 		if (event.target.value === "") {
 			setCategory({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			return;
+		}
+		if (!validCategory(event.target.value)) {
+			setCategory({status: false, value: event.target.value, error: "Campo Inválido!"});
 			return;
 		}
 		setCategory({status: true, value: event.target.value, error: ""});

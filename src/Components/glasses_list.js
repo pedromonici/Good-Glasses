@@ -1,8 +1,9 @@
 import "../index.css";
 import { Link } from "react-router-dom";
 import GlassesImg from "../oculos.jpeg";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import mockAPI from "../API_middlewares/mock";
+import glassImg from "../oculos.jpeg";
 
 function Glasses(props) {
 	return (
@@ -11,7 +12,7 @@ function Glasses(props) {
 				<div className="margin-v-25">
 					{`${props.name}`}<br />
 					<div className="grid-item-img-wrapper">
-						<img src={props.img}/>
+						<img src={glassImg}/>
 					</div>
 					<br/>{`Preço: R$${props.price}`}
 				</div>

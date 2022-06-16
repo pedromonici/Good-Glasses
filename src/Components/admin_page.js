@@ -21,7 +21,7 @@ function GlassesPreview(props) {
 	return (
 		<div className="horizontal-glasses-preview">
 			<div className="preview-img-wrapper">
-				<img src={props.img}/>
+				<img src={GlassesImg}/>
 			</div>
 			<div >
 				<div className="v-middle">{`Nome: ${props.name}`} </div>

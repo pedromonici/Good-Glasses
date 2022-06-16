@@ -13,10 +13,11 @@ import Pay from "./Components/pay";
 import Recomendations from "./Components/recomendations";
 import Home from "./Components/home.js";
 import Cart from "./Components/cart";
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import AdminPage from "./Components/admin_page.js";
 import AddProduct from "./Components/add_product.js";
 import UpdateProduct from "./Components/update_product";
+import Footer from "./Components/footer.js";
 
 function App() {
 	const [loggedIn, setLoggedIn] = useState("");
@@ -54,6 +55,7 @@ function App() {
 					
 				</Routes>
 			</div>
+			<Footer/>
 		</Router>
 	);
 }

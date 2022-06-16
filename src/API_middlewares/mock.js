@@ -161,13 +161,16 @@ class MockAPI {
 	};
 
 	async addProduct(product) {
+		console.log(product);
 		return new Promise((resolve, reject) => {
 			setTimeout(() => {
 				let products = localStorage.getItem("products");
 				if (typeof products !== "string") {
 					products = "{}";
 				}
+				console.log("here", products);
 				products = JSON.parse(products);
+				console.log("now here", products)
 				if (product.name in products) {
 					reject("O produto já existe!");
 				} else {

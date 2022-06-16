@@ -8,6 +8,7 @@ function Home () {
 
 	return (
 		<div>
+			
 			{typeof category !== "string" && <Recomendations/>}
 			<Products/>
 		</div>

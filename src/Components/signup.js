@@ -2,7 +2,7 @@ import "../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import mockAPI from  "../API_middlewares/mock";
 import { useCallback, useState } from "react";
-import TextInput from "./text_input";
+import { TextInput, PassInput } from "./text_input";
 
 function SignUp(props) {
 	const [name, setName] = useState({status: false, value: "", error: "Campo Obrigatório!"});
@@ -131,8 +131,8 @@ function SignUp(props) {
 				<TextInput id="name" label="Nome" state={name} onChange={handleNameChange}/>
 				<TextInput id="email" label="Email" state={email} onChange={handleEmailChange}/>
 				<TextInput id="emailConfirmation" label="Confirmação de email" state={emailConfirmation} onChange={handleEmailConfirmationChange}/>
-				<TextInput id="password" label="Password" state={password} onChange={handlePasswordChange}/>
-				<TextInput id="passwordConfirmation" label="Confirmação de senha" state={passwordConfirmation} onChange={handlePasswordConfirmationChange}/>
+				<PassInput id="password" label="Senha" state={password} onChange={handlePasswordChange}/>
+				<PassInput id="passwordConfirmation" label="Confirmação de senha" state={passwordConfirmation} onChange={handlePasswordConfirmationChange}/>
 				<TextInput id="cpf" label="CPF" state={cpf} onChange={handleCPFChange}/>
 				<TextInput id="telefone" label="Telefone" state={telefone} onChange={handleTelefoneChange}/>
 				<input type="submit" value="Criar Conta" className="pink-background"/>

@@ -2,7 +2,7 @@ import "../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"
 import mockAPI from "../API_middlewares/mock";
-import TextInput from "./text_input";
+import { TextInput } from "./text_input";
 
 function Pay(props) {
 	const [cpf, setCPF] = useState({status: false, value: "", error: "Campo Obrigatório!"});
@@ -14,6 +14,14 @@ function Pay(props) {
 		var re = /^[0-9]{11}$/;
 		return re.test(cpf);
 	};
+	function validNroCartao(nro) {
+		var re = /^[0-9]{16}$/;
+		return re.test(nro);
+	}
+	function validCodSeg(cod) {
+		var re = /^[0-9]{3}$/;
+		return re.test(cod);
+	}
 
 	function handleCPFChange(event) {
 		if (event.target.value === "") {
@@ -32,12 +40,20 @@ function Pay(props) {
 			setNroCartao({status: false, value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
+		if (!validNroCartao(event.target.value)) {
+			setNroCartao({status: false, value: event.target.value, error: "Campo Inválido!"});
+			return;
+		}
 		setNroCartao({status: true, value: event.target.value, error: ""});
 	}
 
 	function handleCodSegChange(event) {
 		if (event.target.value === "") {
 			setCodSeg({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			return;
+		}
+		if (!validCodSeg(event.target.value)) {
+			setCodSeg({status: false, value: event.target.value, error: "Campo Inválido!"});
 			return;
 		}
 		setCodSeg({status: true, value: event.target.value, error: ""});

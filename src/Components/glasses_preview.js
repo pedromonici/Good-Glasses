@@ -1,10 +1,11 @@
 import "../index.css";
+import GlassesImg from "../oculos.jpeg"
 
 const HorizontalGlassesPreview = ({name, price, img}) => {
 	return (
         <div className="horizontal-glasses-preview">
             <div className="preview-img-wrapper">
-                <img src={img}/>
+                <img src={GlassesImg}/>
             </div>
             <div>
                 <div>

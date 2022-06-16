@@ -2,6 +2,7 @@ import "../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
 import mockAPI from "../API_middlewares/mock";
+import { TextInput, PassInput } from "./text_input";
 
 function UpdateInfoForm(props) {
 	const [name, setName] = useState({status: true, value: props.initialName, error: ""});
@@ -95,21 +96,10 @@ function UpdateInfoForm(props) {
 		<div>
 			<h1> Olá, {props.initialName} </h1>
 			<form onSubmit={updateUserInfo}>
-				<label htmlFor="nome"> Nome: </label>
-				<input id="nome" type="text" value={name.value} onChange={handleNameChange}/>
-				<div className={!name.status ? "erro" : "hidden"}> {name.error} </div>
-
-				<label htmlFor="email"> Email: </label>
-				<input id="email" type="email" value={email.value} onChange={handleEmailChange}/>
-				<div className={!email.status ? "erro" : "hidden"}> {email.error} </div>
-
-				<label htmlFor="senha"> Senha: </label>
-				<input id="senha" type="password" value={password.value} onChange={handlePasswordChange}/>
-				<div className={!password.status ? "erro" : "hidden"}> {password.error} </div>
-
-				<label htmlFor="telefone"> Telefone: </label>
-				<input id="telefone" type="tel" value={telefone.value} onChange={handleTelefoneChange}/>
-				<div className={!telefone.status ? "erro" : "hidden"}> {telefone.error} </div>
+				<TextInput id="name" label="Nome" state={name} onChange={handleNameChange}/>
+				<TextInput id="email" label="Email" state={email} onChange={handleEmailChange}/>
+				<PassInput id="password" label="Senha" state={password} onChange={handlePasswordChange}/>
+				<TextInput id="telefone" label="Telefone" state={telefone} onChange={handleTelefoneChange}/>
 
 				<input type="submit" value="Atualizar Dados" className="pink-background"/>
 			</form>

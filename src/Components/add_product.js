@@ -2,7 +2,7 @@ import "../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import mockAPI from  "../API_middlewares/mock";
 import { useCallback, useState } from "react";
-import TextInput from "./text_input";
+import { TextInput } from "./text_input";
 
 function AddProduct(props) {
 	const [name, setName] = useState({status: false, value: "", error: "Campo Obrigatório!"});
@@ -13,6 +13,20 @@ function AddProduct(props) {
 	const [availableQtt, setAvailableQtt] = useState({status: false, value: "", error: "Campo Obrigatório!"});
 	const [category, setCategory] = useState({status: false, value: "", error: "Campo Obrigatório!"});
 	const navigate = useNavigate();
+
+	function validCost(price) {
+		var re = /^[0-9]*$/;
+		return re.test(price);
+	}
+	function validQtt(qtt) {
+		var re = /^[0-9]*$/;
+		return re.test(qtt);
+	}
+	function validCategory(category) {
+		return category === "redondo" || category === "retangular" ||
+		    category === "hexagonal" || category === "escuro" ||
+			category === "lente";
+	}
 
 	function handleNameChange(event) {
 		if (event.target.value === "") {
@@ -31,6 +45,10 @@ function AddProduct(props) {
 	function handleCostChange(event) {
 		if (event.target.value === "") {
 			setCost({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			return;
+		}
+		if (!validCost(event.target.value)) {
+			setCost({status: false, value: event.target.value, error: "Campo inválido"});
 			return;
 		}
 		setCost({status: true, value: event.target.value, error: ""});
@@ -55,11 +73,19 @@ function AddProduct(props) {
 			setAvailableQtt({status: false, value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
+		if (!validQtt(event.target.value)) {
+			setAvailableQtt({status: false, value: event.target.value, error: "Campo Inválido!"});
+			return;
+		}
 		setAvailableQtt({status: true, value: event.target.value, error: ""});
 	};
 	function handleCategoryChange(event) {
 		if (event.target.value === "") {
 			setCategory({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			return;
+		}
+		if (!validCategory(event.target.value)) {
+			setCategory({status: false, value: event.target.value, error: "Campo Inválido!"});
 			return;
 		}
 		setCategory({status: true, value: event.target.value, error: ""});
@@ -86,7 +112,6 @@ function AddProduct(props) {
 		} catch (exception) {
 			alert(exception);
 		}
-
 	});
 
 	return (

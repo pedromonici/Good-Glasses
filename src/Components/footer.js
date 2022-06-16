@@ -1,15 +1,17 @@
 import "../index.css";
+import { Icon } from '@iconify/react';
 
 function Footer(props) {
 	return (
-		<footer className="pink-background black-border">
-			<div className="left sobre-nos">
+		<footer className="footer">
+			<div className="sobre-nos">
 				<h1> Sobre Nós </h1>
-				Lorem ipsum dolor sit amet, consectetur 
-				adipiscing elit, sed do eiusmod tempor 
-				incididunt ut labore et dolore magna aliqua.
+				Melhor loja de óculos do Brasil. Compre com a gente!
 			</div>
-			<div className="right atendimento">
+			<div className="icon">
+				<Icon icon="el:glasses" color="#000000" width="40" height="40"/>
+			</div>
+			<div className="atendimento">
 				<h1> Atendimento </h1>
 				<div className="flex-box vertical-flex">
 					email@goodglasses.com <br/>
