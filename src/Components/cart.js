@@ -29,7 +29,6 @@ function Cart(props) {
 			setCartEntryProps(newObj);
 			sessionStorage.setItem("cart", JSON.stringify(newObj));
 		}
-		console.log(cart);
 	}
 
 	const [cartEntryProps, setCartEntryProps] = useState(cart);

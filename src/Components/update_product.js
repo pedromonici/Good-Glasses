@@ -112,7 +112,6 @@ function UpdateInfoForm(props) {
 		if (notValid) return;
 
 		try {
-			console.log(img.value);
 			await mockAPI.updateProduct(name, {
 				marca: marca.value,
 				price: parseFloat(cost.value),
