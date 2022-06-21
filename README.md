@@ -63,7 +63,7 @@ As imagens do mockup estão na pasta `/mockups`.
 - Visualizar página de administrador, com opção de administrar os produtos e usuários na loja.
 - Acesso a página inicial da loja.
 - Acesso da página de compra de produtos, onde todos os produtos são listados.
-- Acesso ao carrinho de compras, com opção de excluir ou alterar a quantidadade de um item, conferir
+- Acesso ao carrinho de compras, com opção de alterar a quantidadade de um item, conferir
 o preço total e o preço de cada produto, além de finalizar a compra.
 - Visualização de um determinado produto, mostrando seu nome, foto, preço, descrição e botão para
 adicionar ao carrinho.
@@ -109,15 +109,16 @@ Para o Milestone02, é necessário apenas clonar o repositório, instalar as dep
 `npm install` e depois executar o react com `npm start`.
 É valido ressaltar que como as informações estão sendo salvas de forma local é necessário cadastrar produtos
 assim que a aplicação React rodar. Para isso, logue como administrador (`CPF: 12345678910` e `Senha: administrador`)
-vá até Usuário e adicione alguns produtos!
+vá até Usuário e adicione alguns produtos! Para facilitar a depuração, as credenciais de administrador estão
+preenchidas por padrão por enquanto.
 
 ## Problemas
 Como estamos utilizando o armazenamento local do navegador, as imagens carregadas dos produtos não conseguem ser armazenadas após o
-refresh da página, ficado por sua vez, indisponíveis (strings que não apontam para lugar nenhum). Dessa forma, para esse Milestone2
+refresh da página, ficado por sua vez, indisponíveis (strings que apontam para lugar nenhum). Dessa forma, para esse Milestone2
 decidimos colocar imagens padrões para todos os produtos, porém toda a lógica para adicionar e carregar (upload) uma imagem para um 
 determinado produto já está implementada, porém estamos apenas "ignorando" o valor desse upload por enquanto. A partir do momento
 que o servidor estiver implementado, com um banco de dados, tal fator será resolvido.
 
 ## Comentários
-A conta do administrador está "hard-codada" por enquanto e não existe nenhuma hash de senha por enquanto, uma vez que não
+A conta do administrador está "hard-codada" por enquanto e não existe nenhuma hash de senha, uma vez que não
 possuímos servidor ainda.

@@ -2,13 +2,13 @@ import "../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"
 import mockAPI from "../API_middlewares/mock";
-import { TextInput } from "./text_input";
+import { ValidatedInput } from "./validated_input";
 
 function Pay(props) {
-	const [cpf, setCPF] = useState({status: false, value: "", error: "Campo Obrigatório!"});
-	const [nroCartao, setNroCartao] = useState({status: false, value: "", error: "Campo Obrigatório!"});
-	const [codSeg, setCodSeg] = useState({status: false, value: "", error: "Campo Obrigatório!"});
-	const [endereco, setEndereco] = useState({status: false, value: "", error: "Campo Obrigatório!"});
+	const [cpf, setCPF] = useState({status: "empty", value: "", error: "Campo Obrigatório!"});
+	const [nroCartao, setNroCartao] = useState({status: "empty", value: "", error: "Campo Obrigatório!"});
+	const [codSeg, setCodSeg] = useState({status: "empty", value: "", error: "Campo Obrigatório!"});
+	const [endereco, setEndereco] = useState({status: "empty", value: "", error: "Campo Obrigatório!"});
 
 	function validCPF(cpf) {
 		var re = /^[0-9]{11}$/;
@@ -25,46 +25,46 @@ function Pay(props) {
 
 	function handleCPFChange(event) {
 		if (event.target.value === "") {
-			setCPF({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			setCPF({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
 		if (validCPF(event.target.value)) {
-			setCPF({status: true, value: event.target.value, error: ""});
+			setCPF({status: "valid", value: event.target.value, error: ""});
 		} else {
-			setCPF({status: false, value: event.target.value, error: "CPF inválido!"});
+			setCPF({status: "invalid", value: event.target.value, error: "CPF inválido!"});
 		}
 	};
 
 	function handleNroCartaoChange(event) {
 		if (event.target.value === "") {
-			setNroCartao({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			setNroCartao({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
 		if (!validNroCartao(event.target.value)) {
-			setNroCartao({status: false, value: event.target.value, error: "Campo Inválido!"});
+			setNroCartao({status: "invalid", value: event.target.value, error: "Campo Inválido!"});
 			return;
 		}
-		setNroCartao({status: true, value: event.target.value, error: ""});
+		setNroCartao({status: "valid", value: event.target.value, error: ""});
 	}
 
 	function handleCodSegChange(event) {
 		if (event.target.value === "") {
-			setCodSeg({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			setCodSeg({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
 		if (!validCodSeg(event.target.value)) {
-			setCodSeg({status: false, value: event.target.value, error: "Campo Inválido!"});
+			setCodSeg({status: "invalid", value: event.target.value, error: "Campo Inválido!"});
 			return;
 		}
-		setCodSeg({status: true, value: event.target.value, error: ""});
+		setCodSeg({status: "valid", value: event.target.value, error: ""});
 	}
 
 	function handleEnderecoChange(event) {
 		if (event.target.value === "") {
-			setEndereco({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			setEndereco({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
-		setEndereco({status: true, value: event.target.value, error: ""});
+		setEndereco({status: "valid", value: event.target.value, error: ""});
 	}
 
 	const navigate = useNavigate();
@@ -77,6 +77,14 @@ function Pay(props) {
 
 	const executePurchase = async (event) => {
 		event.preventDefault();
+		const valid = [
+			cpf,
+			nroCartao,
+			codSeg,
+			endereco
+		].every(varstate => varstate.status === 'valid')
+		if (!valid) return;
+
 		try {
 			await mockAPI.processPayment(cart);
 			alert("compra realizada com sucesso.")
@@ -92,14 +100,14 @@ function Pay(props) {
 		<div>
 			<h1> Pagamento </h1>
 			<form onSubmit={executePurchase}>
-				<TextInput id="cpf" label="CPF" state={cpf} onChange={handleCPFChange}/>
-				<TextInput id="nroCartao" label="Número do Cartão" state={nroCartao} onChange={handleNroCartaoChange}/>
-				<TextInput id="codSeg" label="Código de Segurança" state={codSeg} onChange={handleCodSegChange}/>
-				<TextInput id="endereco" label="Endereço" state={endereco} onChange={handleEnderecoChange}/>
+				<ValidatedInput type="text" id="cpf" label="CPF" state={cpf} onChange={handleCPFChange}/>
+				<ValidatedInput type="text" id="nroCartao" label="Número do Cartão" state={nroCartao} onChange={handleNroCartaoChange}/>
+				<ValidatedInput type="text" id="codSeg" label="Código de Segurança" state={codSeg} onChange={handleCodSegChange}/>
+				<ValidatedInput type="text" id="endereco" label="Endereço" state={endereco} onChange={handleEnderecoChange}/>
 
 				<div> {`R$${Object.values(cart).reduce((acc, elem) => acc + elem.glassesPreviewProps.price * elem.qtt, 0).toFixed(2)}`} </div>
 
-				<input type="submit" value="Comprar" className="pink-background"/>
+				<button>Comprar</button>
 			</form>
 		</div>
 	);

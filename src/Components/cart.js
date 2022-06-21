@@ -2,15 +2,25 @@ import "../index.css";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import GlassesImg from "../oculos.jpeg";
 import { useState } from "react";
-import HorizontalGlassesPreview from "./glasses_preview";
 import EditableList  from "./editable_list";
+import IconButton from "./icon_button";
 
-function CartEntry({glassesPreviewProps, qtt, onQttChange}) {
+function CartEntry({glassesPreviewProps, qtt, handleQty, addOne, rmvOne}) {
 	return (
-		<div className="cart-entry">
-			<HorizontalGlassesPreview {...glassesPreviewProps}/>
-			<div className="cart-entry-qtt">
-				<input type="number" value={qtt} onChange={onQttChange} min="0"/>
+		<div className="editable-list-item">
+			<div className="preview-img-wrapper">
+				<img className="editable-list-img" src={GlassesImg}/>
+			</div>
+			<div>
+				{`Nome: ${glassesPreviewProps.name}`}
+				<br/> 
+				{`Preço: R${glassesPreviewProps.price.toFixed(2)}`}
+				<br/>
+			</div>
+			<div className="number-btns-div">
+				<IconButton icon="tabler:caret-up" hoverClass="green-hover" width={'3em'} height={'3em'} callback={addOne}/>
+				<input type="number" value={qtt} onChange={handleQty} min="0"/>
+				<IconButton icon="tabler:caret-down" hoverClass="red-hover" width={'3em'} height={'3em'} callback={rmvOne}/>
 			</div>
 		</div>
 	)
@@ -23,20 +33,32 @@ function Cart(props) {
 	}
 	cart = JSON.parse(cart);
 	for (let key of Object.keys(cart)) {
-		cart[key]["onQttChange"] = (event) => {
+		cart[key]["handleQty"] = (event) => {
 			const newObj = {...cart};
 			newObj[key].qtt = parseInt(event.target.value);
-			setCartEntryProps(newObj);
+			setCartEntries(newObj);
+			sessionStorage.setItem("cart", JSON.stringify(newObj));
+		}
+		cart[key]["addOne"] = (event) => {
+			const newObj = {...cart};
+			newObj[key].qtt += 1;
+			setCartEntries(newObj);
+			sessionStorage.setItem("cart", JSON.stringify(newObj));
+		}
+		cart[key]["rmvOne"] = (event) => {
+			const newObj = {...cart};
+			newObj[key].qtt = Math.max(0, newObj[key].qtt-1);
+			setCartEntries(newObj);
 			sessionStorage.setItem("cart", JSON.stringify(newObj));
 		}
 	}
 
-	const [cartEntryProps, setCartEntryProps] = useState(cart);
+	const [cartEntries, setCartEntries] = useState(cart);
 
 	const removeCallback = (key) => {
-		const newObj = {...cartEntryProps};
+		const newObj = {...cartEntries};
 		delete newObj[key];
-		setCartEntryProps(newObj);
+		setCartEntries(newObj);
 		sessionStorage.setItem("cart", JSON.stringify(newObj));
 	};
 
@@ -45,23 +67,20 @@ function Cart(props) {
 	return (
 		<>
 			<div>
-				<h1> Seu carrinho </h1>
-				<hr/>
-				<EditableList itemsProps={cartEntryProps} ItemsComponent={CartEntry} removeCallback={removeCallback}/>
+				<EditableList items={cartEntries} ItemsComponent={CartEntry} removeCallback={removeCallback}/>
 				<div className="flex-box">
 					<h3>
-						Valor Total:
+						{`Total: R$${Object.values(cartEntries).reduce((acc, elem) => acc + elem.glassesPreviewProps.price * elem.qtt, 0).toFixed(2)}`}
 					</h3>
 					<h3>
-						{`R$${Object.values(cartEntryProps).reduce((acc, elem) => acc + elem.glassesPreviewProps.price * elem.qtt, 0).toFixed(2)}`}
+						{props.loggedIn.length !== 0 &&
+							<button className="button" onClick={() => {navigate("/pay")}}> Finalizar Compra </button>
+						}
+						{props.loggedIn.length === 0 &&
+							<button className="button" onClick={() => {navigate("/login")}}> Finalizar Compra </button>
+						}
 					</h3>
 				</div>
-				{props.loggedIn.length !== 0 &&
-					<button className="button" onClick={() => {navigate("/pay")}}> Finalizar Compra </button>
-				}
-				{props.loggedIn.length === 0 &&
-					<button className="button" onClick={() => {navigate("/login")}}> Finalizar Compra </button>
-				}
 			</div>
 		</>
 	);

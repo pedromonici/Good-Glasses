@@ -2,11 +2,11 @@ import "../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useCallback, useState } from "react";
 import mockAPI from  "../API_middlewares/mock";
-import {TextInput, PassInput} from "./text_input";
+import {ValidatedInput} from "./validated_input";
 
 function Login(props) {
-	const [cpf, setCPF] = useState({status: false, value: "", error: "Campo Obrigatório!"});
-	const [password, setPassword] = useState({status: false, value: "", error: "Campo Obrigatório!"});
+	const [cpf, setCPF] = useState({status: "valid", value: "12345678910", error: ""});
+	const [password, setPassword] = useState({status: "valid", value: "administrador", error: ""});
 	const navigate = useNavigate();
 
 	function validCPF(cpf) {
@@ -14,26 +14,28 @@ function Login(props) {
 		return re.test(cpf);
 	};
 
-	function handleCPFChange(event) {
+	function handleCpf(event) {
 		if (event.target.value === "") {
-			setCPF({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			setCPF({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
+
 		if (validCPF(event.target.value)) {
-			setCPF({status: true, value: event.target.value, error: ""});
+			setCPF({status: "valid", value: event.target.value, error: ""});
 		} else {
-			setCPF({status: false, value: event.target.value, error: "CPF inválido!"});
+			setCPF({status: "invalid", value: event.target.value, error: "CPF inválido!"});
 		}
 	};
-	function handlePasswordChange(event) {
+
+	function handlePassword(event) {
 		if (event.target.value === "") {
-			setPassword({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			setPassword({status: "empty", value: event.target.value, error: "Campo Obrigatório"});
 			return;
 		}
 		if (event.target.value.length < 8) {
-			setPassword({status: false, value: event.target.value, error: "Senha precisa ter mais que 8 caracteres!"});
+			setPassword({status: "invalid", value: event.target.value, error: "Senha precisa ter mais que 8 caracteres!"});
 		} else {
-			setPassword({status: true, value: event.target.value, error: ""});
+			setPassword({status: "valid", value: event.target.value, error: ""});
 		}
 	};
 
@@ -63,14 +65,14 @@ function Login(props) {
 			<h1>
 			Login
 			</h1>
-			<form onSubmit={authUser}>
-				<TextInput id="cpf" label="CPF" state={cpf} onChange={handleCPFChange} isPass={false}/>
-				<PassInput id="senha" label="Senha" state={password} onChange={handlePasswordChange} isPass={true}/>
-				<input type="submit" value="Entrar" className="pink-background"/>
+			<form id="login-form" onSubmit={authUser}>
+				<ValidatedInput type="text" id="cpf" label="CPF" state={cpf} onChange={handleCpf} isPass={false}/>
+				<ValidatedInput type="password" id="senha" label="Senha" state={password} onChange={handlePassword} isPass={true}/>
+				<div className="flex-box">
+					<button onClick={() => navigate('/signup')}>Criar Conta</button>
+					<button autoFocus="true" >Entrar</button>
+				</div>
 			</form>
-			<div>
-				Não tem cadastro? Crie uma <Link to="/signup">nova conta</Link>.
-			</div>
 		</div>
 	);
 };

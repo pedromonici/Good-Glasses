@@ -1,22 +1,30 @@
 import "../index.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GlassesImg from "../oculos.jpeg";
 import { useEffect, useState, useCallback } from "react";
 import mockAPI from "../API_middlewares/mock";
 import glassImg from "../oculos.jpeg";
 
 function Glasses(props) {
+	const navigate = useNavigate();
 	return (
-		<div>
-			<Link className="grid-item block-link light-gray-background" to={`/oculos/${props.name}`}>
-				<div className="margin-v-25">
-					{`${props.name}`}<br />
-					<div className="grid-item-img-wrapper">
-						<img src={glassImg}/>
-					</div>
-					<br/>{`Preço: R$${props.price}`}
+		<div className="card">
+			<figure>
+				<img className="editable-list-img" src={GlassesImg} alt="glasses"/>
+			</figure>
+			<section className="details">
+				<div className="min-details">
+				<h1>
+					{props.name}
+					<span>{props.marca}</span>
+				</h1>
+				<h1 className="price">R${props.price.toFixed(2)}</h1>
 				</div>
-			</Link>
+
+				<div className="flex-box vertical-flex">
+					<button onClick={() => navigate(`/oculos/${props.name}`)}>Descrição</button>
+				</div>
+			</section>
 		</div>
 	);
 }
@@ -36,7 +44,7 @@ function GlassesList(props) {
 	}, [props.category]);
 
 	const items = Object.values(glassesList).map((elem) => {
-		return <Glasses name={elem.name} price={elem.price} img={elem.img} key={elem.name} id={elem.name}/>
+		return <Glasses name={elem.name} marca={elem.marca} price={elem.price} img={elem.img} key={elem.name} id={elem.name}/>
 	});
 	return (
 		<div className="grid">

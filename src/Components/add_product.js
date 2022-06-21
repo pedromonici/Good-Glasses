@@ -2,100 +2,108 @@ import "../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import mockAPI from  "../API_middlewares/mock";
 import { useCallback, useState } from "react";
-import { TextInput } from "./text_input";
+import { ValidatedInput } from "./validated_input";
+
+import { categories } from "./products"
+import GlassesImg from "../oculos.jpeg";
 
 function AddProduct(props) {
-	const [name, setName] = useState({status: false, value: "", error: "Campo Obrigatório!"});
-	const [marca, setMarca] = useState({status: false, value: "", error: "Campo Obrigatório!"});
-	const [cost, setCost] = useState({status: false, value: "", error: "Campo Obrigatório!"});
-	const [description, setDescription] = useState({status: false, value: "", error: "Campo Obrigatório!"});
-	const [img, setImg] = useState({status: false, value: "", error: "Campo Obrigatório!"});
-	const [availableQtt, setAvailableQtt] = useState({status: false, value: "", error: "Campo Obrigatório!"});
-	const [category, setCategory] = useState({status: false, value: "", error: "Campo Obrigatório!"});
+	const [name, setName] = useState({status: "empty", value: "", error: "Campo Obrigatório!"});
+	const [marca, setMarca] = useState({status: "empty", value: "", error: "Campo Obrigatório!"});
+	const [cost, setCost] = useState({status: "empty", value: "", error: "Campo Obrigatório!"});
+	const [description, setDescription] = useState({status: "empty", value: "", error: "Campo Obrigatório!"});
+	const [img, setImg] = useState({status: "valid", value: GlassesImg, error: "Campo Obrigatório!"});
+	const [availableQtt, setAvailableQtt] = useState({status: "empty", value: "", error: "Campo Obrigatório!"});
+	const [category, setCategory] = useState({status: "empty", value: "", error: "Campo Obrigatório!"});
 	const navigate = useNavigate();
 
 	function validCost(price) {
-		var re = /^[0-9]*$/;
+		var re = /^\d*\,\d{0,2}$/g;
 		return re.test(price);
 	}
 	function validQtt(qtt) {
-		var re = /^[0-9]*$/;
+		var re = /^\d+$/g;
 		return re.test(qtt);
 	}
-	function validCategory(category) {
-		return category === "redondo" || category === "retangular" ||
-		    category === "hexagonal" || category === "escuro" ||
-			category === "lente";
-	}
 
-	function handleNameChange(event) {
+	function handleName(event) {
 		if (event.target.value === "") {
-			setName({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			setName({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
-		setName({status: true, value: event.target.value, error: ""});
+		setName({status: "valid", value: event.target.value, error: ""});
 	};
-	function handleMarcaChange(event) {
+	function handleMarca(event) {
 		if (event.target.value === "") {
-			setMarca({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			setMarca({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
-		setMarca({status: true, value: event.target.value, error: ""});
+		setMarca({status: "valid", value: event.target.value, error: ""});
 	};
-	function handleCostChange(event) {
+	function handleCost(event) {
 		if (event.target.value === "") {
-			setCost({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			setCost({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
 		if (!validCost(event.target.value)) {
-			setCost({status: false, value: event.target.value, error: "Campo inválido"});
+			setCost({status: "invalid", value: event.target.value, error: "Campo inválido"});
 			return;
 		}
-		setCost({status: true, value: event.target.value, error: ""});
+		setCost({status: "valid", value: event.target.value, error: ""});
 	};
-	function handleDescriptionChange(event) {
+	function handleDescription(event) {
 		if (event.target.value === "") {
-			setDescription({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			setDescription({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
-		setDescription({status: true, value: event.target.value, error: ""});
+		setDescription({status: "valid", value: event.target.value, error: ""});
 	};
-	function handleImgChange(event) {
+	function handleImg(event) {
 		if (event.target.value === "") {
-			setImg({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			setImg({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
 		const imgURL = URL.createObjectURL(event.target.files[0]);
-		setImg({status: true, value: imgURL, error: ""});
+		setImg({status: "valid", value: imgURL, error: ""});
 	};
 	function handleAvailableQttChange(event) {
 		if (event.target.value === "") {
-			setAvailableQtt({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			setAvailableQtt({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
 		if (!validQtt(event.target.value)) {
-			setAvailableQtt({status: false, value: event.target.value, error: "Campo Inválido!"});
+			setAvailableQtt({status: "invalid", value: event.target.value, error: "Campo Inválido!"});
 			return;
 		}
-		setAvailableQtt({status: true, value: event.target.value, error: ""});
-	};
-	function handleCategoryChange(event) {
-		if (event.target.value === "") {
-			setCategory({status: false, value: event.target.value, error: "Campo Obrigatório!"});
-			return;
-		}
-		if (!validCategory(event.target.value)) {
-			setCategory({status: false, value: event.target.value, error: "Campo Inválido!"});
-			return;
-		}
-		setCategory({status: true, value: event.target.value, error: ""});
+		setAvailableQtt({status: "valid", value: event.target.value, error: ""});
 	};
 
-	const registerUser = useCallback(async (event) => {
+	function handleCategory(event) {
+		if (event.target.value === "") {
+			setCategory({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
+			return;
+		}
+
+		if (!categories.has(event.target.value)) {
+			setCategory({status: "invalid", value: event.target.value, error: "Categoria Inválida!"});
+			return;
+		}
+
+		setCategory({status: "valid", value: event.target.value, error: ""});
+	};
+
+	const registerProduct = useCallback(async (event) => {
 		event.preventDefault();
-		const notValid = !name.status || !cost.status || !description.status || 
-					  !img.status || !availableQtt.status	
-		if (notValid) return;
+		const valid = [
+			name,
+			marca,
+			cost,
+			description,
+			availableQtt,
+			category
+		].every(varstate => varstate.status === 'valid')
+
+		if (!valid) return;
 
 		try {
 			await mockAPI.addProduct({
@@ -103,7 +111,7 @@ function AddProduct(props) {
 				marca: marca.value,
 				price: parseFloat(cost.value),
 				description: description.value,
-				img: img.value,
+				img: GlassesImg,
 				availableQtt: parseInt(availableQtt.value),
 				category: category.value,
 				soldQtt: 0
@@ -117,34 +125,26 @@ function AddProduct(props) {
 	return (
 		<div>
 			<h1> Adicionar Produto </h1>
-			<form onSubmit={registerUser}>
-				<TextInput id="name" label="Nome" state={name} onChange={handleNameChange}/>
-				<TextInput id="marca" label="Marca" state={marca} onChange={handleMarcaChange}/>
-				<TextInput id="cost" label="Preço" state={cost} onChange={handleCostChange}/>
-				<TextInput id="description" label="Descrição" state={description} onChange={handleDescriptionChange}/>
+			<form onSubmit={registerProduct}>
+				<ValidatedInput type="text" id="name" label="Nome" state={name} onChange={handleName}/>
+				<ValidatedInput type="text" id="marca" label="Marca" state={marca} onChange={handleMarca}/>
+				<ValidatedInput type="text" id="cost" label="Preço" state={cost} onChange={handleCost}/>
+				<ValidatedInput type="text" id="description" label="Descrição" state={description} onChange={handleDescription}/>
+				<ValidatedInput type="text" id="availableQtt" label="Quantidade Disponível" state={availableQtt} onChange={handleAvailableQttChange}/>
 
-				<div>
-					<label htmlFor="img"> Imagem: </label>
-					<input id="img" type="file" onChange={handleImgChange}/>
-					<div className={!img.status ? "erro" : "hidden"}> {img.error} </div>
+				<div className="custom-field">
+					<select id="categories" className={category.status} onChange={handleCategory}>
+						<option value="">Escolha uma categoria</option>
+						<option value="redondo">Redondo</option>
+						<option value="retangular">Retangular</option>
+						<option value="hexagonal">Hexagonal</option>
+						<option value="escuro">Escuro</option>
+						<option value="lente">Lente</option>
+					</select>
+					<label className="placeholder" htmlFor="categories">Categoria</label>
+					<span className="error-message" aria-live="polite">{category.error}</span>
 				</div>
-
-				<TextInput id="availableQtt" label="Quantidade Disponível" state={availableQtt} onChange={handleAvailableQttChange}/>
-
-				<div>
-					<label htmlFor="category"> Categoria: </label>
-					<input id="category" type="text" value={category.value} onChange={handleCategoryChange} list="categories"/>
-					<datalist id="categories">
-						<option value="redondo"/>
-						<option value="retangular"/>
-						<option value="hexagonal"/>
-						<option value="escuro"/>
-						<option value="lente"/>	 
-					</datalist>
-					<div className={!category.status ? "erro" : "hidden"}> {category.error} </div>
-				</div>
-
-				<input type="submit" value="Adicionar Produto" className="pink-background"/>
+				<button>Adicionar Produto</button>
 			</form>
 		</div>
 	);

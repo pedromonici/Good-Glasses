@@ -5,88 +5,55 @@ import { useCallback, useEffect, useState } from "react";
 import mockAPI from "../API_middlewares/mock";
 import EditableList from "./editable_list";
 import { Icon } from '@iconify/react';
+import IconButton from "./icon_button";
 
-const UpdateCanButton = ({callback}) => {
-    const [color, setColor] = useState("#344648");
-    return (
-        <div className="icon" onClick={callback}>
-            <div onMouseEnter={() => setColor("#209944")} onMouseLeave={() => setColor("#344648")}>
-                <Icon icon="clarity:note-edit-line" color={color} width="40" height="40"/>
-            </div>
-        </div> 
-    )
-}
-
-function GlassesPreview(props) {
-	return (
-		<div className="horizontal-glasses-preview">
-			<div className="preview-img-wrapper">
-				<img src={GlassesImg}/>
-			</div>
-			<div >
-				<div className="v-middle">{`Nome: ${props.name}`} </div>
-				<div className="v-middle">{`Preço: R$${props.price}`}</div>
-				<div className="v-middle">{`Disponíveis: ${props.availableQtt}`}</div>
-				<div className="v-middle">{`Vendidos: ${props.soldQtt}`}</div>
-			</div>
-		</div>
-	);
-}
-
-function GlassesEntry(glassesPreviewProps) {
+function GlassesEntry({removeElement, ...props}) {
 	const navigate = useNavigate();
 	return (
-		<div className="glasses-entry">
-			<GlassesPreview {...glassesPreviewProps}/>
-			<div className="glasses-entry-qtt">
-				<UpdateCanButton callback={() => navigate(`/update_product/${glassesPreviewProps.name}`)}/>
+		<div className="editable-list-item">
+			<div className="preview-img-wrapper">
+				<img className="editable-list-img" src={GlassesImg}/>
+			</div>
+			<div>
+				{`Nome: ${props.name}`}
+				<br/> 
+				{`Preço: R$${props.price.toFixed(2)}`}
+				<br/>
+				{`Disponíveis: ${props.availableQtt}`}
+				<br/>
+				{`Vendidos: ${props.soldQtt}`}
+				<br/>
+			</div>
+			<div id="entry-icons" className="flex-box">
+				<IconButton icon="tabler:edit" hoverClass="green-hover" callback={() => navigate(`/update_product/${props.name}`)}/>
+				<IconButton icon="tabler:trash" hoverClass="red-hover" callback={removeElement}/>
 			</div>
 		</div>
 	)
 }
 
-function UserEntry(usersPreviewProps) {
+function UserEntry(props) {
 	return (
-		<div className="user-entry">
-			<div className="v-center">{`Nome: ${usersPreviewProps.name}`} </div>
-			<div className="v-center">{`CPF: ${usersPreviewProps.cpf}`}</div>
-			<div className="v-center">{`Email: ${usersPreviewProps.email}`}</div>
-			<div className="v-center">{`Telefone: ${usersPreviewProps.telefone}`}</div>
+		<div className="editable-list-item">
+			<div>
+				{`Nome: ${props.name}`}
+				<br/> 
+				{`CPF: ${props.cpf}`}
+				<br/>
+				{`Email: ${props.email}`}
+				<br/>
+				{`Telefone: ${props.telefone}`}
+				<br/>
+			</div>
 		</div>
 	)
 }
-
-function GlassesPreviewList(props) {
-	let list = Object.values(props.products);
-	if (list === null || list === undefined) {
-		list = [];
-	}
-	const items = list.map((glass, idx) => {
-		return <GlassesPreview 
-			name={glass.name} 
-			marca={glass.marca}
-			cost={glass.price}
-			description={glass.description}
-			img={glass.img} 
-			key={idx} 
-			availableQtt={glass.availableQtt}
-			category={glass.category}
-			soldQtt={glass.soldQtt}
-			removeGlasses={props.removeGlasses}
-		/>
-	});
-
-	return (
-		<div className="list">
-			{items}
-		</div>
-	);
-};
 
 function AdminPage(props) {
 	const [products, setProducts] = useState({});
 	const [loaded, setLoaded] = useState(false);
 	const [users, setUsers] = useState({});
+	const [mode, setMode] = useState("products");
 
 	useEffect(() =>{
 		if (!loaded) {
@@ -124,30 +91,30 @@ function AdminPage(props) {
 
 	return (
 		<>
-			<div>
-				<h1> Produtos Cadastrados: </h1>
-				<hr/>
-				<EditableList itemsProps={products} ItemsComponent={GlassesEntry} removeCallback={removeCallback}/>
-			</div>
-			<button className="button" onClick={() => navigate("/add_product")}> Adicionar produto </button>
-			<div>
-				<h1> Usuários Cadastrados: </h1>
-				<hr/>
-				<div className="editable-list-container">
-            		<div className="editable-list">
-                		{(() => {
-                    		return Object.entries(users).map(([key, element]) => {
-								return (
-									<div className="editable-list-item" key={key}>
-										<UserEntry {...element}/>
-									</div>
-								);
-							})
-						})()
-                		}
-            		</div>
-        		</div>
-			</div>
+			{mode === 'products'?
+				<div id="admin-icons">
+					<div className="admin-mode">
+						<button onClick={() => navigate("/add_product")}>Adicionar Produtos</button>
+					</div>
+					<div className="admin-mode">
+						<button onClick={() => setMode("users")}>Usuarios</button>
+					</div>
+				</div>
+			:
+				<div id="admin-icons">
+					<div className="admin-mode">
+						<button onClick={() => {setMode("products");navigate("/admin_page")}}>Produtos</button>
+					</div>
+					<div className="admin-mode">
+						<button onClick={() => setMode("users")}>Usuarios</button>
+					</div>
+				</div>
+			}
+			{mode === 'products' ? 
+				<EditableList items={products} ItemsComponent={GlassesEntry} removeCallback={removeCallback}/>
+			:
+				<EditableList items={users} ItemsComponent={UserEntry}/>
+			}
 		</>
 	);
 };

@@ -2,20 +2,20 @@ import "../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
 import mockAPI from "../API_middlewares/mock";
-import { TextInput, PassInput } from "./text_input";
+import { ValidatedInput } from "./validated_input";
 
 function UpdateInfoForm(props) {
-	const [name, setName] = useState({status: true, value: props.initialName, error: ""});
-	const [email, setEmail] = useState({status: true, value: props.initialEmail, error: ""});
-	const [password, setPassword] = useState({status: true, value: props.initialPassword, error: ""});
-	const [telefone, setTelefone] = useState({status: true, value: props.initialTelefone, error: ""});
+	const [name, setName] = useState({status: "valid", value: props.initialName, error: ""});
+	const [email, setEmail] = useState({status: "valid", value: props.initialEmail, error: ""});
+	const [password, setPassword] = useState({status: "valid", value: props.initialPassword, error: ""});
+	const [telefone, setTelefone] = useState({status: "valid", value: props.initialTelefone, error: ""});
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		setName({status: true, value: props.initialName, error: ""});
-		setEmail({status: true, value: props.initialEmail, error: ""});
-		setPassword({status: true, value: props.initialPassword, error: ""});
-		setTelefone({status: true, value: props.initialTelefone, error: ""});
+		setName({status: "valid", value: props.initialName, error: ""});
+		setEmail({status: "valid", value: props.initialEmail, error: ""});
+		setPassword({status: "valid", value: props.initialPassword, error: ""});
+		setTelefone({status: "valid", value: props.initialTelefone, error: ""});
 	}, [props.initialName, props.initialEmail, props.initialPassword, props.initialTelefone]);
 
 	function validEmail(email) {
@@ -30,49 +30,54 @@ function UpdateInfoForm(props) {
 
 	function handleNameChange(event) {
 		if (event.target.value === "") {
-			setName({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			setName({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
-		setName({status: true, value: event.target.value, error: ""});
+		setName({status: "valid", value: event.target.value, error: ""});
 	};
 	function handleEmailChange(event) {
 		if (event.target.value === "") {
-			setEmail({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			setEmail({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
 		if (validEmail(event.target.value)) {
-			setEmail({status: true, value: event.target.value, error: ""});
+			setEmail({status: "valid", value: event.target.value, error: ""});
 		} else {
-			setEmail({status: false, value: event.target.value, error: "Email inválido!"});
+			setEmail({status: "invalid", value: event.target.value, error: "Email inválido!"});
 		}
 	};
 	function handlePasswordChange(event) {
 		if (event.target.value === "") {
-			setPassword({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			setPassword({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
 		if (event.target.value.length < 8) {
-			setPassword({status: false, value: event.target.value, error: "Senha precisa ter mais que 8 caracteres!"});
+			setPassword({status: "invalid", value: event.target.value, error: "Senha precisa ter mais que 8 caracteres!"});
 		} else {
-			setPassword({status: true, value: event.target.value, error: ""});
+			setPassword({status: "valid", value: event.target.value, error: ""});
 		}
 	};
 	function handleTelefoneChange(event) {
 		if (event.target.value === "") {
-			setTelefone({status: false, value: event.target.value, error: "Campo Obrigatório!"});
+			setTelefone({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
 			return;
 		}
 		if (validTelefone(event.target.value)) {
-			setTelefone({status: true, value: event.target.value, error: ""});
+			setTelefone({status: "valid", value: event.target.value, error: ""});
 		} else {
-			setTelefone({status: false, value: event.target.value, error: "Telefone inválido!"});
+			setTelefone({status: "invalid", value: event.target.value, error: "Telefone inválido!"});
 		}
 	};
 
 	const updateUserInfo = useCallback(async (event) => {
 		event.preventDefault();
-		const notValid = !name.status || !email.status || !password.status || !telefone.status;			
-		if (notValid) return;
+		const valid = [
+			name,
+			email,
+			password,
+			telefone
+		].every(varstate => varstate.status === 'valid')
+		if (!valid) return;
 
 		try {
 			await mockAPI.updateUserInfo(props.loggedIn, {
@@ -96,12 +101,11 @@ function UpdateInfoForm(props) {
 		<div>
 			<h1> Olá, {props.initialName} </h1>
 			<form onSubmit={updateUserInfo}>
-				<TextInput id="name" label="Nome" state={name} onChange={handleNameChange}/>
-				<TextInput id="email" label="Email" state={email} onChange={handleEmailChange}/>
-				<PassInput id="password" label="Senha" state={password} onChange={handlePasswordChange}/>
-				<TextInput id="telefone" label="Telefone" state={telefone} onChange={handleTelefoneChange}/>
-
-				<input type="submit" value="Atualizar Dados" className="pink-background"/>
+				<ValidatedInput type="text" id="name" label="Nome" state={name} onChange={handleNameChange}/>
+				<ValidatedInput type="text" id="email" label="Email" state={email} onChange={handleEmailChange}/>
+				<ValidatedInput type="password" id="password" label="Senha" state={password} onChange={handlePasswordChange}/>
+				<ValidatedInput type="text" id="telefone" label="Telefone" state={telefone} onChange={handleTelefoneChange}/>
+				<button>Atualizar Dados</button>
 			</form>
 		</div>
 	);

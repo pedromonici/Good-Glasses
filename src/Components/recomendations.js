@@ -34,7 +34,7 @@ function Recomendations(props) {
 
 				<input type="radio" id="html" name="tipo_rosto" value="HTML" onChange={() => setValues([false, false, true])}/>
 				<label htmlFor="html">Oval</label>
-				<input type="submit" value="Recomendar Óculos" className="pink-background"/>
+				<button>Recomendar Óculos</button>
 			</form>
 		</div>
 	);

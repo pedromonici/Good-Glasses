@@ -25,7 +25,7 @@ function App() {
 
 	return (
 		<Router>
-			<Header loggedIn={loggedIn} isAdmin={isAdmin}/>
+			<Header className="banner" loggedIn={loggedIn} isAdmin={isAdmin}/>
 			<div className="content">
 				<Routes>
 					<Route exact path="/" element={<Home/>}/>
@@ -55,7 +55,7 @@ function App() {
 					
 				</Routes>
 			</div>
-			<Footer/>
+			<Footer className="banner" />
 		</Router>
 	);
 }

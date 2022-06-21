@@ -1,41 +1,26 @@
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import "../index.css";
-
-const ThrashCanButton = ({removeCallback}) => {
-    const [color, setColor] = useState("#344648");
-    return (
-        <div className="icon" onClick={removeCallback}>
-            <div onMouseEnter={() => setColor("#C34F5A")} onMouseLeave={() => setColor("#344648")}>
-                <Icon icon="ri:delete-bin-5-line" color={color} width="40" height="40"/>
-            </div>
-        </div> 
-    )
-};
+import IconButton from './icon_button';
 
 const EditableList = ({
-    itemsProps,
+    items,
     ItemsComponent,
     removeCallback,
 }) => {
     return (
-        <div className="editable-list-container">
-            <div className="editable-list">
-                {
-                    Object.entries(itemsProps).map(([key, element]) => {
-                        const removeElement = (event) => {
-                            event.preventDefault();
-                            removeCallback(key);
-                        };
-                        return (
-                            <div className="editable-list-item" key={key}>
-                                <ItemsComponent {...element}/>
-                                <ThrashCanButton removeCallback={removeElement}/>
-                            </div>
-                        )
-                    })
-                }
-            </div>
+        <div className="editable-list">
+            {
+                Object
+                .entries(items)
+                .map(([key, element]) => {
+                    const removeElement = (event) => {
+                        event.preventDefault();
+                        removeCallback(key);
+                    };
+                    return <ItemsComponent key={key} removeElement={removeElement} {...element}/>
+                })
+            }
         </div>
     )
 }
