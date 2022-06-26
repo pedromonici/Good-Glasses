@@ -73,6 +73,10 @@ html, body {
 	align-items: center;
 }
 
+.g-2 {
+    gap: 2em;
+}
+
 .flex-item {
 	flex: 1;
 }
@@ -489,4 +493,5 @@ button:focus {
     font-size: .9rem;
     font-weight: 400;
 }
+
 /* ==== End of Glasses ==== */

@@ -5,7 +5,7 @@ import { useState } from "react";
 import EditableList  from "./editable_list";
 import IconButton from "./icon_button";
 
-function CartEntry({glassesPreviewProps, qtt, handleQty, addOne, rmvOne}) {
+function CartEntry({glassesPreviewProps, qtt, handleQty, addOne, rmvOne, removeElement}) {
 	return (
 		<div className="editable-list-item">
 			<div className="preview-img-wrapper">
@@ -17,11 +17,14 @@ function CartEntry({glassesPreviewProps, qtt, handleQty, addOne, rmvOne}) {
 				{`Preço: R${glassesPreviewProps.price.toFixed(2)}`}
 				<br/>
 			</div>
-			<div className="number-btns-div">
-				<IconButton icon="tabler:caret-up" hoverClass="green-hover" width={'3em'} height={'3em'} callback={addOne}/>
-				<input type="number" value={qtt} onChange={handleQty} min="0"/>
-				<IconButton icon="tabler:caret-down" hoverClass="red-hover" width={'3em'} height={'3em'} callback={rmvOne}/>
-			</div>
+            <div className="flex-box g-2">
+                <div className="number-btns-div">
+                    <IconButton icon="tabler:caret-up" hoverClass="green-hover" width={'3em'} height={'3em'} callback={addOne}/>
+                    <input type="number" value={qtt} onChange={handleQty} min="0"/>
+                    <IconButton icon="tabler:caret-down" hoverClass="red-hover" width={'3em'} height={'3em'} callback={rmvOne}/>
+                </div>
+			    <IconButton icon="tabler:trash" hoverClass="red-hover" callback={removeElement}/>
+            </div>
 		</div>
 	)
 }
