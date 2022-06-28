@@ -35,34 +35,35 @@ function Cart(props) {
 		cart = "{}";
 	}
 	cart = JSON.parse(cart);
-	for (let key of Object.keys(cart)) {
-		cart[key]["handleQty"] = (event) => {
-			const newObj = {...cart};
-			newObj[key].qtt = parseInt(event.target.value);
-			setCartEntries(newObj);
-			sessionStorage.setItem("cart", JSON.stringify(newObj));
-		}
-		cart[key]["addOne"] = (event) => {
-			const newObj = {...cart};
-			newObj[key].qtt += 1;
-			setCartEntries(newObj);
-			sessionStorage.setItem("cart", JSON.stringify(newObj));
-		}
-		cart[key]["rmvOne"] = (event) => {
-			const newObj = {...cart};
-			newObj[key].qtt = Math.max(0, newObj[key].qtt-1);
-			setCartEntries(newObj);
-			sessionStorage.setItem("cart", JSON.stringify(newObj));
-		}
-	}
 
 	const [cartEntries, setCartEntries] = useState(cart);
+
+	for (let key of Object.keys(cartEntries)) {
+		cartEntries[key]["handleQty"] = (event) => {
+			const newObj = {...cartEntries};
+			newObj[key].qtt = parseInt(event.target.value);
+			sessionStorage.setItem("cart", JSON.stringify(newObj));
+			setCartEntries(newObj);
+		}
+		cartEntries[key]["addOne"] = (event) => {
+			const newObj = {...cartEntries};
+			newObj[key].qtt += 1;
+			sessionStorage.setItem("cart", JSON.stringify(newObj));
+			setCartEntries(newObj);
+		}
+		cartEntries[key]["rmvOne"] = (event) => {
+			const newObj = {...cartEntries};
+			newObj[key].qtt = Math.max(0, newObj[key].qtt-1);
+			sessionStorage.setItem("cart", JSON.stringify(newObj));
+			setCartEntries(newObj);
+		}
+	}
 
 	const removeCallback = (key) => {
 		const newObj = {...cartEntries};
 		delete newObj[key];
-		setCartEntries(newObj);
 		sessionStorage.setItem("cart", JSON.stringify(newObj));
+		setCartEntries(newObj);
 	};
 
 	const navigate = useNavigate();
