@@ -13,8 +13,10 @@ function GlassesDescription(props) {
 	useEffect(() => {
 		(async () => {
 			try {
-				const glasses = await mockAPI.getProduct(glassesId.id); 
-				setGlassesInfo(JSON.parse(glasses));
+				// const glasses = await mockAPI.getProduct(glassesId.id); 
+				// setGlassesInfo(JSON.parse(glasses));
+				const glasses = await (await fetch(`http://localhost:3001/product/name/${glassesId.id}`)).json();
+				setGlassesInfo(glasses);
 			} catch (exception) {
 				alert(exception);
 			}

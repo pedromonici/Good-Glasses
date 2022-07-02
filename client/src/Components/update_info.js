@@ -80,12 +80,18 @@ function UpdateInfoForm(props) {
 		if (!valid) return;
 
 		try {
-			await mockAPI.updateUserInfo(props.loggedIn, {
-				name: name.value,
-				email: email.value,
-				password: password.value,
-				telefone: telefone.value
-			});
+			// await mockAPI.updateUserInfo(props.loggedIn, {
+			let resp = await fetch(`http://localhost:3001/update_info/${props.loggedIn}`, {
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify({
+					name: name.value,
+					email: email.value,
+					password: password.value,
+					cpf: props.loggedIn,
+					phoneNumber: telefone.value,
+				})
+			})
 			navigate(-1);
 		} catch (exception) {
 			alert(exception);
@@ -122,7 +128,8 @@ function UpdateInfo(props) {
 		if (!didLoad) {
 			(async function() {
 				try {
-					const info = JSON.parse(await mockAPI.getUserInfo(props.loggedIn));
+					// const info = JSON.parse(await mockAPI.getUserInfo(props.loggedIn));
+					const info = await (await fetch(`http://localhost:3001/login/${props.loggedIn}`)).json();
 					setName(info.name);
 					setEmail(info.email);
 					setPassword(info.password);

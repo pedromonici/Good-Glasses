@@ -59,9 +59,16 @@ function AdminPage(props) {
 		if (!loaded) {
 			(async () => {
 				try {
-					setProducts(JSON.parse(await mockAPI.getProducts()));
+					// setProducts(JSON.parse(await mockAPI.getProducts()));
+					const bla = await fetch(`http://localhost:3001/product/all`);
+					console.log("bla: ", bla);
+					let resp = await bla.json();
+					console.log("get resp for all products: ", resp);
+	
+					setProducts(resp);
 					setLoaded(true);	
 				} catch(exception) {
+					console.log("error on get for all products: ", exception);
 					setLoaded(false);
 				}
 			})();
@@ -71,8 +78,12 @@ function AdminPage(props) {
 	useEffect(() => {
 		(async () => {
 			try {
-				setUsers(JSON.parse(await mockAPI.getUsers()));
+				// setUsers(JSON.parse(await mockAPI.getUsers()));
+				let resp = await (await fetch(`http://localhost:3001/all_users`)).json();
+				console.log("get resp: ", resp);
+				setUsers(resp);
 			} catch(exception) {
+				console.log("tried getting all users -> exception:", exception);
 				alert("Não foi possível encontrar usuários!");
 			}
 		})();
@@ -80,7 +91,13 @@ function AdminPage(props) {
 
 	const removeCallback = async (name) => {
 		try {
-			await mockAPI.removeProduct(name);
+			// await mockAPI.removeProduct(name);
+			let resp = await (await fetch(`http://localhost:3001/product/delete/${name}`), {
+				method: 'DELETE',
+				headers: {'Content-Type': 'application/json'}
+			}).json();
+			console.log("get resp: ", resp);
+
 			setLoaded(false);
 		} catch(exception) {
 			alert("Falha ao remover produto!");

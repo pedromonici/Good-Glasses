@@ -116,18 +116,38 @@ function SignUp(props) {
 
 		if (!valid) return;
 
+		let client = {}
+
 		try {
-			await mockAPI.registerUser({
-				name: name.value,
-				email: email.value,
-				password: password.value,
-				cpf: cpf.value,
-				telefone: telefone.value
-			});
+			let resp = await fetch(`http://localhost:3001/signup/${cpf.value}`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+					name: name.value,
+					email: email.value,
+					password: password.value,
+					cpf: cpf.value,
+					phoneNumber: telefone.value,
+				})
+			})
+			
+			console.log("post resp: ", resp);
 			navigate("/login");
 		} catch (exception) {
 			alert(exception);
 		}
+		// try {
+		// 	await mockAPI.registerUser({
+		// 		name: name.value,
+		// 		email: email.value,
+		// 		password: password.value,
+		// 		cpf: cpf.value,
+		// 		telefone: telefone.value
+		// 	});
+		// 	navigate("/login");
+		// } catch (exception) {
+		// 	alert(exception);
+		// }
 
 	});
 

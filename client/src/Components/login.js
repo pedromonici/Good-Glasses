@@ -52,12 +52,20 @@ function Login(props) {
 		}
 
 		try {
-			await mockAPI.authUser(cpf.value, password.value);
+			let resp = (await fetch(`http://localhost:3001/login/${cpf.value}`)).ok
+			console.log("get resp: ", resp)
 			props.setLoggedIn(cpf.value);
 			navigate(-1);
 		} catch (exception) {
-			alert("CPF e/ou senha inválido(s)");
+			alert("CPF e/ou senha inválido(s)", exception);
 		}
+		// try {
+		// 	await mockAPI.authUser(cpf.value, password.value);
+		// 	props.setLoggedIn(cpf.value);
+		// 	navigate(-1);
+		// } catch (exception) {
+		// 	alert("CPF e/ou senha inválido(s)");
+		// }
 	});
 
 	return (

@@ -19,13 +19,14 @@ function UpdateInfoForm(props) {
 	useEffect(() => {
 		(async () => {
 			try {
-				const product = JSON.parse(await mockAPI.getProduct(params.name));
-				setName(product.name);
-				setMarca({status: "valid", value: product.marca, error: ""});
-				setCost({status: "valid", value: product.price, error: ""});
-				setDescription({status: "valid", value: product.description, error: ""});
-				setAvailableQtt({status: "valid", value: product.availableQtt, error: ""});
-				setCategory({status: "valid", value: product.category, error: ""})
+				// const product = JSON.parse(await mockAPI.getProduct(params.name));
+				let resp = await (await fetch(`http://localhost:3001/product/name/${params.name}`)).json();
+				setName(resp.name);
+				setMarca({status: "valid", value: resp.marca, error: ""});
+				setCost({status: "valid", value: resp.price, error: ""});
+				setDescription({status: "valid", value: resp.description, error: ""});
+				setAvailableQtt({status: "valid", value: resp.availableQtt, error: ""});
+				setCategory({status: "valid", value: resp.category, error: ""})
 			} catch (exception) {
 				alert(exception);
 			}
@@ -106,12 +107,17 @@ function UpdateInfoForm(props) {
 		if (!valid) return;
 
 		try {
-			await mockAPI.updateProduct(name, {
-				marca: marca.value,
-				price: parseFloat(cost.value),
-				description: description.value,
-				availableQtt: parseInt(availableQtt.value),
-				category: category.value,
+			// await mockAPI.updateProduct(name, {
+			await fetch(`http://localhost:3001/product/update/${name}`, {
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify({
+					marca: marca.value,
+					price: parseFloat(cost.value),
+					description: description.value,
+					availableQtt: parseInt(availableQtt.value),
+					category: category.value,
+				})
 			});
 			navigate("/admin_page");
 		} catch (exception) {

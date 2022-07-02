@@ -106,17 +106,34 @@ function AddProduct(props) {
 		if (!valid) return;
 
 		try {
-			await mockAPI.addProduct({
-				name: name.value,
-				marca: marca.value,
-				price: parseFloat(cost.value),
-				description: description.value,
-				img: GlassesImg,
-				availableQtt: parseInt(availableQtt.value),
-				category: category.value,
-				soldQtt: 0
-			});
+			let resp = await fetch(`http://localhost:3001/product/new/${name.value}`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+					name: name.value,
+					marca: marca.value,
+					price: parseFloat(cost.value),
+					description: description.value,
+					// img: GlassesImg,
+					availableQtt: parseInt(availableQtt.value),
+					category: category.value,
+					soldQtt: 0
+					})
+			})
+			
+			console.log("post resp: ", resp);
 			navigate("/admin_page");
+			
+			// await mockAPI.addProduct({
+			// 	name: name.value,
+			// 	marca: marca.value,
+			// 	price: parseFloat(cost.value),
+			// 	description: description.value,
+			// 	img: GlassesImg,
+			// 	availableQtt: parseInt(availableQtt.value),
+			// 	category: category.value,
+			// 	soldQtt: 0
+			// });
 		} catch (exception) {
 			alert(exception);
 		}
