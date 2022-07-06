@@ -18,17 +18,22 @@ mongoose.connect(process.env.MONGO_URL,
 // Load database models
 const Client = require('./models/client');
 const Product = require('./models/product');
+const Order = require('./models/order');
 
 // Load the routes
 const clientRoutes = require('./routes/client-routes')
 const productRoutes = require('./routes/product-routes')
 
-app.use(bodyParser.json())
+// Configure bodyParser
+app.use(bodyParser.json({
+    limit: '5mb'
+}))
 app.use(bodyParser.urlencoded({extended: false}))
-app.use(express.static('public'))
+
+// Enable CORS
 app.use(cors())
 
-// app.use('/', indexRoutes)
+app.use(express.static('public'))
 app.use('/', clientRoutes)
 app.use('/product', productRoutes)
 

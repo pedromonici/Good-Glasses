@@ -25,7 +25,9 @@ const schema = new Schema({
         trim: true,
     },
     // img: {
-
+    //     type: String,
+    //     required: true,
+    //     trim: true
     // },
     availableQtt: {
         type: Number,
