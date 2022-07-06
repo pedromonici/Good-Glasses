@@ -32,7 +32,13 @@ const schema = new Schema({
     email: {
         type: String,
         trim: true
-    }
+    },
+    roles: [{
+        type: String,
+        required: true,
+        enum: ['user', 'admin'],
+        default: 'user'
+    }]
 })
 
 module.exports = mongoose.model('Client', schema);
