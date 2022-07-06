@@ -17,10 +17,10 @@ exports.get = async (req, res, next) => {
 }
 
 exports.getByCategory = async (req, res, next) => {
-    // console.log(`get done for products by category: `, req.params)
+    console.log(`get done for products by category: `, req.params.category)
 
     try {
-        let categoryFilter = req.params.category === "null"? {} : {category: req.params.key};
+        let categoryFilter = req.params.category === "null"? {} : {category: req.params.category};
         let products = await Product.find(categoryFilter);
         products = products.reduce((productsObj, product) => {
             productsObj[product.name] = product;
