@@ -7,6 +7,8 @@ import EditableList from "./editable_list";
 import { Icon } from '@iconify/react';
 import IconButton from "./icon_button";
 
+const utils = require('../utils')
+
 function GlassesEntry({removeElement, ...props}) {
 	const navigate = useNavigate();
 	return (
@@ -42,7 +44,7 @@ function UserEntry(props) {
 				<br/>
 				{`Email: ${props.email}`}
 				<br/>
-				{`Telefone: ${props.telefone}`}
+				{`Telefone: ${props.phoneNumber}`}
 				<br/>
 			</div>
 		</div>
@@ -78,8 +80,11 @@ function AdminPage(props) {
 	useEffect(() => {
 		(async () => {
 			try {
-				// setUsers(JSON.parse(await mockAPI.getUsers()));
-				let resp = await (await fetch(`http://localhost:3001/all_users`)).json();
+				const token = utils.getCookie();
+				
+				let resp = await (await fetch(`http://localhost:3001/all_users`, {
+					headers: {'Content-Type': 'application/json', 'x-access-token': token },
+				})).json();
 				console.log("get resp: ", resp);
 				setUsers(resp);
 			} catch(exception) {
@@ -91,15 +96,17 @@ function AdminPage(props) {
 
 	const removeCallback = async (name) => {
 		try {
-			// await mockAPI.removeProduct(name);
-			let resp = await (await fetch(`http://localhost:3001/product/delete/${name}`), {
+			const token = utils.getCookie();
+
+			let resp = await (await fetch(`http://localhost:3001/product/delete/${name}`, {
 				method: 'DELETE',
-				headers: {'Content-Type': 'application/json'}
-			}).json();
-			console.log("get resp: ", resp);
+				headers: {'Content-Type': 'application/json', 'x-access-token': token },
+			})).json();
+			console.log("delete resp: ", resp);
 
 			setLoaded(false);
 		} catch(exception) {
+			console.log(exception);
 			alert("Falha ao remover produto!");
 		}
 	};

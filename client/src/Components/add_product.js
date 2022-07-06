@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import mockAPI from  "../API_middlewares/mock";
 import { useCallback, useState } from "react";
 import { ValidatedInput } from "./validated_input";
-
 import { categories } from "./products"
 import GlassesImg from "../oculos.jpeg";
+
+const utils = require('../utils')
 
 function AddProduct(props) {
 	const [name, setName] = useState({status: "empty", value: "", error: "Campo Obrigatório!"});
@@ -106,9 +107,11 @@ function AddProduct(props) {
 		if (!valid) return;
 
 		try {
+			const token = utils.getCookie();
+
 			let resp = await fetch(`http://localhost:3001/product/new/${name.value}`, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: {'Content-Type': 'application/json', 'x-access-token': token },
                 body: JSON.stringify({
 					name: name.value,
 					marca: marca.value,

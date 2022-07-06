@@ -1,3 +1,5 @@
+const utils = require('../utils')
+
 class MockAPI {
 	constructor() {};
 
@@ -181,21 +183,39 @@ class MockAPI {
 
 	async processPayment(cart) {
 		return new Promise((resolve, reject) => {
-			setTimeout(() => {
-				let products = localStorage.getItem("products");
-				if (typeof products !== "string") {
-					products = "{}";
-				}
-				products = JSON.parse(products);
+			setTimeout(async () => {
+				// let products = localStorage.getItem("products");
+				// if (typeof products !== "string") {
+				// 	products = "{}";
+				// }
+				// products = JSON.parse(products);
+
+				const products = await (await fetch(`http://localhost:3001/product/all`)).json();
+
+				console.log('processPayment - products: ', products);
+				console.log('processPayment - cart: ', cart);
+				const token = utils.getCookie()
+				
 				for (let item of Object.values(cart)) {
-					if (item.qtt > products[item.glassesPreviewProps.name].availableQtt) {
+					const product = products[item.glassesPreviewProps.name];
+					if (item.qtt > product.availableQtt) {
 						reject(`Quantidade solicitada para o item ${item.glassesPreviewProps.name} é maior do que a disponível`);
 					} else {
-						products[item.glassesPreviewProps.name].availableQtt -= item.qtt;
-						products[item.glassesPreviewProps.name].soldQtt += item.qtt;
+
+						const new_availableQtt = product.availableQtt -= item.qtt;
+						const new_soldQtt = product.soldQtt += item.qtt;
+						
+						await fetch(`http://localhost:3001/product/order/${product.name}`, {
+							method: 'POST',
+							headers: {'Content-Type': 'application/json', 'x-access-token': token },
+							body: JSON.stringify({
+								availableQtt: new_availableQtt,
+								soldQtt: new_soldQtt
+							})
+						});
 					}
 				}
-				localStorage.setItem("products", JSON.stringify(products));
+				// localStorage.setItem("products", JSON.stringify(products));
 				resolve("");
 			}, 300);
 		});

@@ -5,8 +5,8 @@ import mockAPI from  "../API_middlewares/mock";
 import {ValidatedInput} from "./validated_input";
 
 function Login(props) {
-	const [cpf, setCPF] = useState({status: "valid", value: "12345678910", error: ""});
-	const [password, setPassword] = useState({status: "valid", value: "administrador", error: ""});
+	const [cpf, setCPF] = useState({status: "valid", value: "01925348712", error: ""});
+	const [password, setPassword] = useState({status: "valid", value: "01925348712", error: ""});
 	const navigate = useNavigate();
 
 	function validCPF(cpf) {
@@ -44,20 +44,32 @@ function Login(props) {
 		const notValid = !cpf.status || !password.status; 		
 		if (notValid) return;
 
-		if (cpf.value === "12345678910" && password.value === "administrador") {
-			props.setLoggedIn(cpf.value);
-			props.setIsAdmin(true);
-			navigate(-1);
-			return;
-		}
-
 		try {
-			let resp = (await fetch(`http://localhost:3001/login/${cpf.value}`)).ok
+			let resp = await fetch(`http://localhost:3001/authenticate`, {
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify({
+					cpf: cpf.value,
+					password: password.value,
+				})
+			});
 			console.log("get resp: ", resp)
+
+			console.log("response status - ", resp.status);
+			if (resp.status !== 201) { throw Error("backend did not authorize") };
+
+			resp = await resp.json();
+			console.log(resp);
+			document.cookie=`token=${resp.token}; expires=${resp.expiry}; secure; samesite=lax`;
+
 			props.setLoggedIn(cpf.value);
+			if (resp.data.roles.includes('admin')) {
+				props.setIsAdmin(true);
+			}
 			navigate(-1);
 		} catch (exception) {
-			alert("CPF e/ou senha inválido(s)", exception);
+			console.log(exception);
+			alert("CPF e/ou senha inválido(s)");
 		}
 		// try {
 		// 	await mockAPI.authUser(cpf.value, password.value);

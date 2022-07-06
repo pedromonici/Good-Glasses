@@ -128,6 +128,7 @@ function SignUp(props) {
 					password: password.value,
 					cpf: cpf.value,
 					phoneNumber: telefone.value,
+					roles: ['user']
 				})
 			})
 			

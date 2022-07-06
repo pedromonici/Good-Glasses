@@ -3,11 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
 import mockAPI from "../API_middlewares/mock";
 import { ValidatedInput } from "./validated_input";
+const utils = require('../utils')
 
 function UpdateInfoForm(props) {
 	const [name, setName] = useState({status: "valid", value: props.initialName, error: ""});
 	const [email, setEmail] = useState({status: "valid", value: props.initialEmail, error: ""});
-	const [password, setPassword] = useState({status: "valid", value: props.initialPassword, error: ""});
+	const [password, setPassword] = useState({status: "empty", value: "", error: ""});
 	const [telefone, setTelefone] = useState({status: "valid", value: props.initialTelefone, error: ""});
 	const navigate = useNavigate();
 
@@ -48,7 +49,7 @@ function UpdateInfoForm(props) {
 	};
 	function handlePasswordChange(event) {
 		if (event.target.value === "") {
-			setPassword({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
+			setPassword({status: "empty", value: event.target.value, error: ""});
 			return;
 		}
 		if (event.target.value.length < 8) {
@@ -80,18 +81,28 @@ function UpdateInfoForm(props) {
 		if (!valid) return;
 
 		try {
-			// await mockAPI.updateUserInfo(props.loggedIn, {
+			const token = utils.getCookie();
+
+			let updated_user = {
+				token: token,
+				name: name.value,
+				email: email.value,
+				cpf: props.loggedIn,
+				phoneNumber: telefone.value,
+			};
+
+			if (password.value.length > 0) {
+				updated_user.password = password.value;
+			}
+
+			console.log("updated_user: ", updated_user);
+			
 			let resp = await fetch(`http://localhost:3001/update_info/${props.loggedIn}`, {
 				method: 'POST',
-				headers: {'Content-Type': 'application/json'},
-				body: JSON.stringify({
-					name: name.value,
-					email: email.value,
-					password: password.value,
-					cpf: props.loggedIn,
-					phoneNumber: telefone.value,
-				})
-			})
+				headers: {'Content-Type': 'application/json', 'x-access-token': token },
+				body: JSON.stringify(updated_user)
+			});
+
 			navigate(-1);
 		} catch (exception) {
 			alert(exception);
@@ -128,14 +139,20 @@ function UpdateInfo(props) {
 		if (!didLoad) {
 			(async function() {
 				try {
-					// const info = JSON.parse(await mockAPI.getUserInfo(props.loggedIn));
-					const info = await (await fetch(`http://localhost:3001/login/${props.loggedIn}`)).json();
+					const token = utils.getCookie();
+
+					const info = await (await fetch(`http://localhost:3001/login/${props.loggedIn}`, {
+						headers: {'x-access-token': token},
+					})).json();
+
+					console.log(info);
+					
 					setName(info.name);
 					setEmail(info.email);
-					setPassword(info.password);
-					setTelefone(info.telefone);
+					setTelefone(info.phoneNumber);
 					setDidLoad(true);
 				} catch (exception) {
+					console.log(exception);
 					setDidLoad(false);
 				}
 			})();

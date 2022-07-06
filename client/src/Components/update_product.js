@@ -5,6 +5,7 @@ import mockAPI from "../API_middlewares/mock";
 import Products from "./products";
 import { ValidatedInput } from "./validated_input";
 
+const utils = require('../utils')
 
 function UpdateInfoForm(props) {
 	const [name, setName] = useState("");
@@ -107,10 +108,11 @@ function UpdateInfoForm(props) {
 		if (!valid) return;
 
 		try {
-			// await mockAPI.updateProduct(name, {
+			const token = utils.getCookie();
+
 			await fetch(`http://localhost:3001/product/update/${name}`, {
 				method: 'POST',
-				headers: {'Content-Type': 'application/json'},
+				headers: {'Content-Type': 'application/json', 'x-access-token': token },
 				body: JSON.stringify({
 					marca: marca.value,
 					price: parseFloat(cost.value),
