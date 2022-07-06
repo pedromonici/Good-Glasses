@@ -18,7 +18,6 @@ mongoose.connect(process.env.MONGO_URL,
 // Load database models
 const Client = require('./models/client');
 const Product = require('./models/product');
-const Order = require('./models/order');
 
 // Load the routes
 const clientRoutes = require('./routes/client-routes')
