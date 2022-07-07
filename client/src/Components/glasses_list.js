@@ -37,7 +37,6 @@ function GlassesList(props) {
 			try {
 				// const glasses = await mockAPI.getProducts(props.category);
 				let resp = await (await fetch(`http://localhost:3001/product/category/${props.category}`)).json();
-				console.log("get resp for product by category: ", resp);
 
 				setGlassesList(resp);
 			} catch(exception) {

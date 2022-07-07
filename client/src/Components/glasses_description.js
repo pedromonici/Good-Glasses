@@ -29,13 +29,17 @@ function GlassesDescription(props) {
 			jsonCart = "{}";
 		}
 		const cart = {...JSON.parse(jsonCart)};
-		cart[glassesId.id] = {
-			"glassesPreviewProps": {
-				name: glassesInfo.name,
-				price: glassesInfo.price,
-				img: GlassesImg,
-			}, 
-			"qtt": 1
+		if (cart[glassesId.id] !== undefined) {
+			cart[glassesId.id].qtt++;
+		} else {
+			cart[glassesId.id] = {
+				"glassesPreviewProps": {
+					name: glassesInfo.name,
+					price: glassesInfo.price,
+					img: GlassesImg,
+				}, 
+				"qtt": 1
+			}
 		}
 		sessionStorage.setItem("cart", JSON.stringify(cart));
 		navigate("/");
