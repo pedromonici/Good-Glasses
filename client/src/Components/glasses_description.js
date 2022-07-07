@@ -47,10 +47,10 @@ function GlassesDescription(props) {
 
 	return (
 		<div className=" flex-box flex-box-wrap">
-			<img src={GlassesImg} className="img-oculos"/>
+			<img src={GlassesImg} className="img-oculos-details"/>
 		  		<div className="info-oculos">
-					<h1> {glassesInfo.name} </h1>
-					<h3> {glassesInfo.marca} </h3>
+					<h1 className="details-product-name"> {glassesInfo.name} </h1>
+					<h3 className="details-product-marca"> {glassesInfo.marca} </h3>
 					<p>
 						{glassesInfo.description}
 					</p>
@@ -59,7 +59,8 @@ function GlassesDescription(props) {
 				<h2>{`Vendidos:   ${glassesInfo.soldQtt}`}</h2>
 				<h2>{`Em estoque: ${glassesInfo.availableQtt}`}</h2>
 				<h1>{`Preço: R$${glassesInfo.price}`}</h1>
-				<button className="button" onClick={addToCart}> Adicionar ao carrinho </button>
+				<br/>
+				<button className="button-details" onClick={addToCart}> Adicionar ao carrinho </button>
 		  	</div>
 		</div>
 	);

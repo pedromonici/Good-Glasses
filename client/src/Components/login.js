@@ -5,8 +5,8 @@ import mockAPI from  "../API_middlewares/mock";
 import {ValidatedInput} from "./validated_input";
 
 function Login(props) {
-	const [cpf, setCPF] = useState({status: "valid", value: "01925348712", error: ""});
-	const [password, setPassword] = useState({status: "valid", value: "01925348712", error: ""});
+	const [cpf, setCPF] = useState({status: "valid", value: "12345678910", error: ""});
+	const [password, setPassword] = useState({status: "valid", value: "administrador", error: ""});
 	const navigate = useNavigate();
 
 	function validCPF(cpf) {

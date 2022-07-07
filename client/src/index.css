@@ -494,4 +494,29 @@ button:focus {
     font-weight: 400;
 }
 
+.details-product-name {
+	font-size: 50px
+}
+
+.details-product-marca {
+	font-size: 20px
+}
+
+.img-oculos-details{
+	width: 500px;
+	object-fit: contain;
+}
+
+.button-details {
+	background-color: var(--pink);
+	cursor: pointer;
+	white-space: normal;
+	letter-spacing: 0.25px;
+	font-weight: 400;
+	padding: 2em 1em;
+	border-radius: 0.5em;
+	line-height: 1.5em;
+	min-width: 5em;
+}
+
 /* ==== End of Glasses ==== */
