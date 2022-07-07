@@ -24,11 +24,10 @@ const schema = new Schema({
         type: String,
         trim: true,
     },
-    // img: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },
+    img: {
+        type: String,
+		require: true
+    },
     availableQtt: {
         type: Number,
         require: true,

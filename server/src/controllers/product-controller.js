@@ -69,7 +69,18 @@ exports.orderPost = async (req, res, next) => {
 
 exports.post = async (req, res, next) => {
     console.log("Post done for product ", req.body.name);
-    const product = new Product(req.body)
+
+    
+	if (!req.file || ! req.file.path) {
+		console.log(req.file);
+		return res.status(422).json({ error: "invalid" });
+	}
+	const product = new Product({
+		...req.body,
+		img: req.file.path,
+		soldQtt: 0
+	})
+
     try {
         let saved = await product.save();
         res.status(200).send({
@@ -87,7 +98,12 @@ exports.updatePost = async (req, res, next) => {
     console.log(`updating - ${req.params.name}: ${JSON.stringify(req.body)}`)
 
     try {
-        const product = await Product.findOneAndUpdate({name: req.params.name}, req.body);
+		let product = null;
+		if (req.file!== undefined) {
+			product = await Product.findOneAndUpdate({name: req.params.name}, {...req.body, img: req.file.path});
+		} else {
+			product = await Product.findOneAndUpdate({name: req.params.name}, req.body);
+		}
         console.log("updated product: ", product);
         res.status(200).send({
             message: 'Product updated sucessfully'

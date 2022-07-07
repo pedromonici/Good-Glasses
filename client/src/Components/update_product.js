@@ -14,6 +14,7 @@ function UpdateInfoForm(props) {
 	const [description, setDescription] = useState({status: "empty", value: "", error: "Campo Obrigatório!"});
 	const [availableQtt, setAvailableQtt] = useState({status: "empty", value: "", error: "Campo Obrigatório!"});
 	const [category, setCategory] = useState({status: "empty", value: "", error: "Campo Obrigatório!"});
+	const [img, setImg] = useState({status: "empty", value: "", error: "Campo Obrigatório!"});
 	const navigate = useNavigate();
 	const params = useParams();
 
@@ -84,6 +85,13 @@ function UpdateInfoForm(props) {
 		}
 		setAvailableQtt({status: "valid", value: event.target.value, error: ""});
 	};
+	function handleImgChange(event) {
+		if (event.target.files === undefined) {
+			setImg({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
+			return;
+		}
+		setImg({status: "valid", value: event.target.files[0], error: ""});
+	};
 	function handleCategoryChange(event) {
 		if (event.target.value === "") {
 			setCategory({status: "empty", value: event.target.value, error: "Campo Obrigatório!"});
@@ -109,17 +117,20 @@ function UpdateInfoForm(props) {
 
 		try {
 			const token = utils.getCookie();
+			const formData = new FormData();
+			formData.append("marca", marca.value);
+			formData.append("price", parseFloat(cost.value));
+			formData.append("description", description.value);
+			if (img.status === "valid") {
+				formData.append("img", img.value, img.value.name);
+			}
+			formData.append("availableQtt", parseInt(availableQtt.value));
+			formData.append("category", category.value);
 
 			await fetch(`http://localhost:3001/product/update/${name}`, {
 				method: 'POST',
-				headers: {'Content-Type': 'application/json', 'x-access-token': token },
-				body: JSON.stringify({
-					marca: marca.value,
-					price: parseFloat(cost.value),
-					description: description.value,
-					availableQtt: parseInt(availableQtt.value),
-					category: category.value,
-				})
+				headers: {'x-access-token': token },
+				body: formData
 			});
 			navigate("/admin_page");
 		} catch (exception) {
@@ -137,6 +148,9 @@ function UpdateInfoForm(props) {
 				<ValidatedInput type="text" id="cost" label="Preço" state={cost} onChange={handleCostChange}/>
 				<ValidatedInput type="text" id="description" label="Descrição" state={description} onChange={handleDescriptionChange}/>
 				<ValidatedInput type="text" id="availableQtt" label="Quantidade Disponível" state={availableQtt} onChange={handleAvailableQttChange}/>
+
+				<input id={"img"} type="file" className={img.status} onChange={handleImgChange}/>
+				<label htmlFor={"img"} className="placeholder">Imagem</label>
 
 				<div className="custom-field">
 					<label htmlFor="placeholder">Categoria</label>

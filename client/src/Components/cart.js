@@ -9,7 +9,7 @@ function CartEntry({glassesPreviewProps, qtt, handleQty, addOne, rmvOne, removeE
 	return (
 		<div className="editable-list-item">
 			<div className="preview-img-wrapper">
-				<img className="editable-list-img" src={GlassesImg}/>
+				<img className="editable-list-img" src={glassesPreviewProps.img}/>
 			</div>
 			<div>
 				{`Nome: ${glassesPreviewProps.name}`}

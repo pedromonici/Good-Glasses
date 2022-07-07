@@ -10,7 +10,7 @@ function Glasses(props) {
 	return (
 		<div className="card">
 			<figure>
-				<img className="editable-list-img" src={GlassesImg} alt="glasses"/>
+				<img className="editable-list-img" src={props.img} alt="glasses"/>
 			</figure>
 			<section className="details">
 				<div className="min-details">

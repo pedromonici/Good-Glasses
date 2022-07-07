@@ -14,7 +14,7 @@ function GlassesEntry({removeElement, ...props}) {
 	return (
 		<div className="editable-list-item">
 			<div className="preview-img-wrapper">
-				<img className="editable-list-img" src={GlassesImg}/>
+				<img className="editable-list-img" src={props.img}/>
 			</div>
 			<div>
 				{`Nome: ${props.name}`}

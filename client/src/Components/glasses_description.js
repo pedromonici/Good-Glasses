@@ -36,7 +36,7 @@ function GlassesDescription(props) {
 				"glassesPreviewProps": {
 					name: glassesInfo.name,
 					price: glassesInfo.price,
-					img: GlassesImg,
+					img: glassesInfo.img,
 				}, 
 				"qtt": 1
 			}
@@ -47,7 +47,7 @@ function GlassesDescription(props) {
 
 	return (
 		<div className=" flex-box flex-box-wrap">
-			<img src={GlassesImg} className="img-oculos-details"/>
+			<img src={glassesInfo.img} className="img-oculos-details"/>
 		  		<div className="info-oculos">
 					<h1 className="details-product-name"> {glassesInfo.name} </h1>
 					<h3 className="details-product-marca"> {glassesInfo.marca} </h3>
