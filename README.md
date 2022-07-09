@@ -1,5 +1,5 @@
 # Good-Glasses
-Final assignment for web development class (Milestone2)
+Final assignment for web development class (Milestone3)
 ### Integrantes:
 |Nome|NUSP|
 |----|----|
@@ -126,4 +126,6 @@ Finalmente, o site será aberto e é possível realizar todas as funcionalidades
 Não há problemas!
 
 ## Comentários
-Não há comentários!
+
+Foi utilizado o serviço Cloudnary para o upload das fotos de produtos.
+As credenciais estão no arquivo `.env` no diretório `server`.
