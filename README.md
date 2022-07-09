@@ -1,9 +1,11 @@
 # Good-Glasses
 Final assignment for web development class (Milestone2)
 ### Integrantes:
-Pedro Henrique Borges Monici - 10816732
-Guilherme Machado Rios - 11222839
-Gabriel Victor Cardoso Fernandes - 11878296
+|Nome|NUSP|
+|----|----|
+|Pedro Henrique Borges Monici | 10816732 |
+|Guilherme Machado Rios | 11222839 |
+|Gabriel Victor Cardoso Fernandes | 11878296 |
 
 ## Requisitos
 
@@ -12,6 +14,7 @@ O sistema deve ter 2 tipos de usuários: Clientes e Administradores.
 - Administradores são responsáveis por registrar/gerenciar outros administradores,
 clientes e produtos fornecidos. O aplicativo já possui uma conta de administrador com 
 as seguintes credenciais:
+
 ```
 CPF: 12345678910
 Senha: administrador
@@ -77,7 +80,7 @@ adicionar ao carrinho.
 - Nome
 - Email
 - Senha
-- Admin (0 ou 1)
+- Role (User ou Admin)
 - Endereço
 - Número de Telefone
 
@@ -91,34 +94,36 @@ adicionar ao carrinho.
 - Quantidade disponível para compra
 
 ## Comentários sobre o código
-Para o Milestone2, foi realizada toda a parte de Front-End do sistema. Para tal, foi desenvolvida
-uma API local que utiliza do armazenamento interno do navegador para salvar as informações (produtos e usuários).
-Tal API está disponível em `src/API_middlewares/mock.js`
-O código foi desenvolvido com framework React e portanto foi divido em componentes de forma modularizada e estão
-disponíveis no diretório `src/Components`.
+Para o Milestone3, foi realizada toda a parte de Front-End e Back-End do sistema. Para tal, foi
+utilizado React para o Front-End e Node para o Back-End. O código desenvolvido com framework React foi divido em componentes
+de forma modularizada e estão disponíveis no diretório `client/src/Components`.
+O código do Back-End está disponível no diretório `server` e é válido ressaltar que 
+o arquivo `.env` presente nesse diretório é de extrema importância para a conexão ao MongoDB e dos processos de autenticação.
 
 ## Plano de Teste
-Por enquanto, foram realizados apenas alguns testes manuais de cada funcionalidade do sistema de forma que conseguimos
+Foram realizados alguns testes manuais de cada funcionalidade do sistema de forma que conseguimos
 autenticar que todo o sistema está funcionando corretamente.
 
 ## Resultado dos Testes
-Todos os recursos do sistema estão funcionando corretamente até então.
+Todos os recursos do sistema estão funcionando corretamente.
 
 ## Building
-Para o Milestone02, é necessário apenas clonar o repositório, instalar as dependências com
-`npm install` e depois executar o react com `npm start`.
-É valido ressaltar que como as informações estão sendo salvas de forma local é necessário cadastrar produtos
-assim que a aplicação React rodar. Para isso, logue como administrador (`CPF: 12345678910` e `Senha: administrador`)
-vá até Usuário e adicione alguns produtos! Para facilitar a depuração, as credenciais de administrador estão
-preenchidas por padrão por enquanto.
+Para o Milestone03, é necessário apenas clonar o repositório, instalar as dependências com
+`npm install` no diretório `client` e `server`. Depois é necessário entrar no diretório do servidor e executá-lo:
+```
+cd server
+nodemon src/server.js
+```
+
+Em seguida, é necessário entrar no diretório do cliente e executar o react:
+```
+cd client
+npm start
+```
+Finalmente, o site será aberto e é possível realizar todas as funcionalidades!
 
 ## Problemas
-Como estamos utilizando o armazenamento local do navegador, as imagens carregadas dos produtos não conseguem ser armazenadas após o
-refresh da página, ficado por sua vez, indisponíveis (strings que apontam para lugar nenhum). Dessa forma, para esse Milestone2
-decidimos colocar imagens padrões para todos os produtos, porém toda a lógica para adicionar e carregar (upload) uma imagem para um 
-determinado produto já está implementada, porém estamos apenas "ignorando" o valor desse upload por enquanto. A partir do momento
-que o servidor estiver implementado, com um banco de dados, tal fator será resolvido.
+Não há problemas!
 
 ## Comentários
-A conta do administrador está "hard-codada" por enquanto e não existe nenhuma hash de senha, uma vez que não
-possuímos servidor ainda.
+Não há comentários!
