@@ -1,4 +1,10 @@
 # Good-Glasses
+![Mongo](https://img.shields.io/badge/MongoDB-%20-yellow)
+![Cloudnary](https://img.shields.io/badge/Cloudnary-%20-yellow)
+![Node](https://img.shields.io/badge/Node-%20-yellow)
+![React](https://img.shields.io/badge/React-%20-yellow)
+
+
 Final assignment for web development class (Milestone3)
 ### Integrantes:
 |Nome|NUSP|
@@ -121,6 +127,9 @@ cd client
 npm start
 ```
 Finalmente, o site será aberto e é possível realizar todas as funcionalidades!
+É importante ressaltar que é necessário ter o `nodemon` instalado:
+
+```sudo npm install -g nodemon```
 
 ## Problemas
 Não há problemas!
@@ -129,3 +138,4 @@ Não há problemas!
 
 Foi utilizado o serviço Cloudnary para o upload das fotos de produtos.
 As credenciais estão no arquivo `.env` no diretório `server`.
+
